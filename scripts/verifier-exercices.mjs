@@ -47,6 +47,38 @@ async function executer(kind, code, tests) {
 
 let echecs = 0;
 let total = 0;
+
+// Auto-test de l'exécuteur : t.wait doit échouer sur un code faux, réussir sur un code lent ;
+// setProps doit mettre le rendu à jour.
+const AUTOTESTS = {
+  react: {
+    faux: 'export default function A({ titre }) { return <div><h1>{titre}</h1><ul></ul></div> }',
+    lent: `import { useState, useEffect } from 'react'
+export default function A({ titre }) { const [n, setN] = useState(0); useEffect(() => { const t = setTimeout(() => setN(2), 200); return () => clearTimeout(t) }, []); return <div><h1>{titre}</h1><ul>{Array.from({ length: n }, (_, i) => <li key={i}>x</li>)}</ul></div> }`,
+  },
+  vue: {
+    faux: '<script setup>\ndefineProps([\'titre\'])\n</script>\n<template><div><h1>{{ titre }}</h1><ul></ul></div></template>',
+    lent: `<script setup>
+import { ref, onMounted } from 'vue'
+defineProps(['titre'])
+const n = ref(0)
+onMounted(() => setTimeout(() => { n.value = 2 }, 200))
+</script>
+<template><div><h1>{{ titre }}</h1><ul><li v-for="i in n" :key="i">x</li></ul></div></template>`,
+  },
+};
+const testWait = async (t) => { const w = await t.mount({ titre: 'a' }); await t.wait(() => t.expect(w.findAll('li')).toHaveLength(2)); };
+const testProps = async (t) => { const w = await t.mount({ titre: 'a' }); await w.setProps({ titre: 'b' }); t.expect(w.find('h1').text()).toBe('b'); };
+const enTests = (...fns) => fns.map((f, i) => ({ nom: 'autotest ' + i, src: f.toString() }));
+console.log('▸ auto-test de l\'exécuteur');
+for (const [kind, codes] of Object.entries(AUTOTESTS)) {
+  const faux = await executer(kind, codes.faux, enTests(testWait));
+  const lent = await executer(kind, codes.lent, enTests(testWait, testProps));
+  const ok = faux.resultats?.[0]?.ok === false && lent.resultats?.every((r) => r.ok);
+  if (!ok) echecs++;
+  console.log(`  ${ok ? '✓' : '✗'} ${kind} : t.wait et setProps${ok ? '' : ' → ' + JSON.stringify({ faux: faux.resultats, lent: lent.resultats })}`);
+}
+
 for (const id of parcours) {
   const p = (await import(pathToFileURL(join(RACINE, `content/${id}/index.js`)))).default;
   const ids = p.lecons.flatMap((l) => l.exercices || []).filter((e) => !filtre || e === filtre);

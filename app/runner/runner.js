@@ -489,7 +489,9 @@
 
   function actReact(fn) {
     var act = window.React && window.React.act;
-    if (act) return act(fn);
+    // act() renvoie un « thenable » dont .then() ne renvoie rien : on l'enveloppe
+    // dans une vraie promesse pour pouvoir enchaîner les .then().
+    if (act) return Promise.resolve(act(fn));
     return Promise.resolve(fn()).then(function () { return pause(0); });
   }
 

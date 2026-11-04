@@ -3,7 +3,8 @@ import { describe, it, expect, afterEach, vi } from 'vitest'
 import { mountSuspended } from '@nuxt/test-utils/runtime'
 import { flushPromises } from '@vue/test-utils'
 import { defineComponent, h, onErrorCaptured, type Component } from 'vue'
-import { clearError, createError, showError, useError, useRouter, type NuxtError } from '#imports'
+import type { NuxtError } from '#app'
+import { clearError, createError, showError, useError, useRouter } from '#imports'
 import { chargerComposant, chargerModule } from './outils'
 
 interface Produit { id: number, nom: string, prix: number, description: string }

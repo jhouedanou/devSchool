@@ -140,14 +140,14 @@ export default {
       titre: 'Panier avec Pinia',
       duree: 60,
       niveau: 3,
-      resume: 'Un panier partagé entre plusieurs composants grâce à un store Pinia avec state, getters et actions.',
+      resume: "Un panier partagé entre composants grâce à un setup store Pinia : état, valeurs calculées (total, nombre d'articles) et actions.",
     },
     {
       id: '07-mini-blog-router',
       titre: 'Mini-blog avec Vue Router',
       duree: 60,
       niveau: 3,
-      resume: "Un blog à plusieurs pages : liste d'articles, page de détail avec paramètre, garde de navigation et page 404.",
+      resume: "Un blog à plusieurs pages : liste d'articles, page de détail avec paramètre et page 404.",
     },
   ],
 };

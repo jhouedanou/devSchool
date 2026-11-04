@@ -4,6 +4,7 @@
 // pour chaque test. Tu contrôles ainsi ce que « le serveur » répond.
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { mountSuspended, registerEndpoint } from '@nuxt/test-utils/runtime'
+import type { VueWrapper } from '@vue/test-utils'
 import { clearNuxtData, createError, refreshNuxtData } from '#imports'
 import { chargerComposant } from './outils'
 
@@ -34,7 +35,7 @@ async function corpsJson(evenement: Evenement) {
 }
 
 const chargerPage = () => chargerComposant('app/pages/taches.vue')
-const titresAffiches = (page: Awaited<ReturnType<typeof mountSuspended>>) =>
+const titresAffiches = (page: VueWrapper) =>
   page.findAll('[data-test="tache"]').map((li) => li.text())
 
 beforeEach(() => {

@@ -6,7 +6,14 @@ import { defineVitestProject } from '@nuxt/test-utils/config'
 const testsServeur = ['tests/03-api-taches.test.ts']
 
 export default defineConfig({
+  server: {
+    // Ne surveille pas les fichiers générés par Nuxt : sinon le mode watch relance les tests en boucle.
+    watch: { ignored: ['**/.nuxt/**', '**/.output/**'] },
+  },
   test: {
+    // Les tests serveur n'importent pas les fichiers de server/ :
+    // on relance donc les tests quand un de ces fichiers change.
+    forceRerunTriggers: ['**/package.json/**', '**/{vitest,vite,nuxt}.config.*/**', '**/server/**'],
     projects: [
       // Tests de l'application (pages, composants, composables, middleware).
       // Ils tournent dans l'environnement « nuxt » : auto-imports, routeur et useState fonctionnent.
