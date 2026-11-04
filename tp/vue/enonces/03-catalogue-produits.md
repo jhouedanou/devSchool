@@ -6,7 +6,7 @@ Tu découpes une page de boutique en deux composants.
 `ProduitCarte` affiche un produit et prévient son parent quand on clique sur « Ajouter au panier ».
 `Catalogue` affiche la liste des cartes, un champ de recherche et le total du panier.
 
-Les données descendent par les **props**. Les actions remontent par les **événements**.
+Les données descendent par les props. Les actions remontent par les événements.
 
 ## Ce que tu vas pratiquer
 

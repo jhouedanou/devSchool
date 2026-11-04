@@ -4,6 +4,9 @@
   "version": "1.0.0",
   "description": "Travaux pratiques React 19 (devSchool) : exercices, tests et solutions.",
   "type": "module",
+  "engines": {
+    "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
+  },
   "scripts": {
     "dev": "vite",
     "dev:solution": "vite --mode solution",

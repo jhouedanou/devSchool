@@ -24,7 +24,7 @@ Leçons utiles : [les composables](#/vue/lecon/08-composables), [watch et le cyc
 
 ## Étapes
 
-1. Dans `refresh()`, lis l'URL avec `toValue(url)`, **avant** le premier `await`.
+1. Dans `refresh()`, lis l'URL avec `toValue(url)`, avant le premier `await`.
 2. Remets `data` et `error` à `null`, puis passe `loading` à `true`.
 3. Dans un `try / catch / finally` :
    - appelle `fetch(adresse)` ;

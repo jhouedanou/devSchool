@@ -10,23 +10,9 @@
 
 ## La base de données
 
-Le `.env` d'un nouveau projet utilise SQLite :
-
-```bash
-DB_CONNECTION=sqlite
-```
-
+Le `.env` d'un nouveau projet contient `DB_CONNECTION=sqlite`.
 La base est le fichier `database/database.sqlite`. Rien d'autre à installer.
-Pour MySQL, change les variables `DB_*` :
-
-```bash
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=blog
-DB_USERNAME=root
-DB_PASSWORD=
-```
+Pour MySQL, mets `DB_CONNECTION=mysql` et remplis `DB_HOST`, `DB_DATABASE`, `DB_USERNAME` et `DB_PASSWORD`.
 
 ## Créer le modèle et ses fichiers
 
@@ -34,13 +20,8 @@ DB_PASSWORD=
 php artisan make:model Article -mfs
 ```
 
-| Option | Crée |
-|--------|------|
-| `-m` | une migration |
-| `-f` | une factory |
-| `-s` | un seeder |
-| `-c` | un contrôleur |
-| `-a` | tout : migration, factory, seeder, policy, contrôleur, Form Requests |
+`-m` ajoute une migration, `-f` une factory, `-s` un seeder, `-c` un contrôleur.
+`-a` crée tout : migration, factory, seeder, policy, contrôleur et Form Requests.
 
 ```text
 app/Models/Article.php
@@ -61,12 +42,7 @@ Une **migration** est une classe PHP qui décrit un changement de structure de l
 Elle est versionnée avec ton code : toute l'équipe a la même structure.
 
 ```php
-<?php
-
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
-
+// database/migrations/2026_11_04_120000_create_articles_table.php
 return new class extends Migration
 {
     public function up(): void
@@ -88,8 +64,7 @@ return new class extends Migration
 };
 ```
 
-- `up()` applique le changement.
-- `down()` l'annule (utilisé par `migrate:rollback`).
+`up()` applique le changement. `down()` l'annule (utilisé par `migrate:rollback`).
 
 ### Types de colonnes courants
 
@@ -106,14 +81,8 @@ return new class extends Migration
 | `foreignId('user_id')` | clé étrangère (leçon 5) |
 | `timestamps()` | `created_at` et `updated_at` |
 
-Les **modificateurs** s'enchaînent après le type :
-
-```php
-$table->string('subtitle')->nullable();          // accepte NULL
-$table->unsignedInteger('views')->default(0);    // valeur par défaut
-$table->string('email')->unique();               // pas de doublon
-$table->string('status')->index();               // index pour les recherches
-```
+Les **modificateurs** s'enchaînent après le type : `->nullable()` (accepte NULL), `->default(0)`, `->unique()` (pas de doublon), `->index()` (recherches rapides).
+Exemple : `$table->unsignedInteger('views')->default(0);`
 
 ### Modifier une table existante
 
@@ -126,16 +95,12 @@ php artisan make:migration add_views_to_articles_table
 ```php
 public function up(): void
 {
-    Schema::table('articles', function (Blueprint $table) {
-        $table->unsignedInteger('views')->default(0);
-    });
+    Schema::table('articles', fn (Blueprint $table) => $table->unsignedInteger('views')->default(0));
 }
 
 public function down(): void
 {
-    Schema::table('articles', function (Blueprint $table) {
-        $table->dropColumn('views');
-    });
+    Schema::table('articles', fn (Blueprint $table) => $table->dropColumn('views'));
 }
 ```
 
@@ -159,10 +124,7 @@ php artisan migrate:fresh --seed # pareil, puis lance les seeders
 **Eloquent** est l'ORM de Laravel : une classe modèle représente une table, une instance représente une ligne.
 
 ```php
-<?php
-
-namespace App\Models;
-
+// app/Models/Article.php
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -186,13 +148,10 @@ class Article extends Model
 `create()` et `update()` reçoivent un tableau de colonnes : c'est le **mass assignment** (affectation en masse).
 Tu dois lister les colonnes autorisées. Sinon un visiteur pourrait envoyer un champ `is_admin=1`.
 
-La syntaxe classique, toujours valable en Laravel 13 :
+La syntaxe classique, toujours valable en Laravel 13, est une propriété :
 
 ```php
-class Article extends Model
-{
-    protected $fillable = ['title', 'slug', 'body', 'published_at'];
-}
+protected $fillable = ['title', 'slug', 'body', 'published_at'];
 ```
 
 L'inverse existe : `protected $guarded = ['id'];` liste les colonnes **interdites**.
@@ -205,21 +164,12 @@ L'inverse existe : `protected $guarded = ['id'];` liste les colonnes **interdite
 
 Un **cast** convertit une colonne en type PHP à la lecture, et inversement à l'écriture.
 
-```php
-protected function casts(): array
-{
-    return [
-        'published_at' => 'datetime',   // objet date (Carbon)
-        'is_featured' => 'boolean',
-        'options' => 'array',           // JSON ↔ tableau PHP
-        'password' => 'hashed',         // haché automatiquement
-    ];
-}
-```
-
-```php
-$article->published_at->format('d/m/Y');   // possible grâce au cast datetime
-```
+| Cast | Effet |
+|------|-------|
+| `'datetime'` | objet date (Carbon) : `$article->published_at->format('d/m/Y')` |
+| `'boolean'`, `'integer'` | vrai booléen, vrai entier |
+| `'array'` | colonne JSON ↔ tableau PHP |
+| `'hashed'` | valeur hachée à l'enregistrement (mot de passe) |
 
 > [!NOTE]
 > **Changé depuis Laravel 11** : les casts se déclarent dans une méthode `casts()`. L'ancienne propriété `protected $casts = [...]` fonctionne encore.
@@ -257,43 +207,24 @@ Article::whereNotNull('published_at')
     ->get();                             // Collection de 5 articles
 
 Article::latest()->get();                // tri par created_at décroissant
-Article::count();
 Article::where('title', 'like', '%laravel%')->exists();   // true / false
 ```
 
 `where()` prépare la requête. Elle s'exécute seulement avec `get()`, `first()`, `count()`…
 
-### Modifier
+### Modifier et supprimer
 
 ```php
 $article = Article::findOrFail(1);
-$article->update(['title' => 'Nouveau titre']);
+$article->update(['title' => 'Nouveau titre']);   // ou : modifier la propriété puis save()
+Article::whereNull('published_at')->update(['published_at' => now()]);   // plusieurs lignes
 
-// ou
-$article->title = 'Nouveau titre';
-$article->save();
-
-// plusieurs lignes d'un coup
-Article::whereNull('published_at')->update(['published_at' => now()]);
-```
-
-### Supprimer
-
-```php
 $article->delete();
-Article::destroy(1);
 Article::destroy([1, 2, 3]);
 Article::where('views', 0)->delete();
 ```
 
-### Trouver ou créer
-
-```php
-$article = Article::firstOrCreate(
-    ['slug' => 'faq'],                       // recherche
-    ['title' => 'FAQ', 'body' => 'À venir']  // valeurs si création
-);
-```
+`Article::firstOrCreate(['slug' => 'faq'], ['title' => 'FAQ', 'body' => '…'])` cherche l'article, ou le crée s'il manque.
 
 Teste tout ça dans `php artisan tinker` avant de l'écrire dans un contrôleur.
 
@@ -302,13 +233,7 @@ Teste tout ça dans `php artisan tinker` avant de l'écrire dans un contrôleur.
 Une **factory** fabrique des modèles avec de fausses données, pour les tests et le développement.
 
 ```php
-<?php
-
-namespace Database\Factories;
-
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
-
+// database/factories/ArticleFactory.php
 class ArticleFactory extends Factory
 {
     public function definition(): array
@@ -334,8 +259,7 @@ Le modèle doit utiliser le trait `HasFactory` (ajouté par `make:model -f`).
 
 ```php
 Article::factory()->create();                       // 1 article en base
-Article::factory()->count(10)->create();            // 10 articles
-Article::factory(10)->create();                     // pareil
+Article::factory()->count(10)->create();            // 10 articles (ou factory(10))
 Article::factory()->make();                         // en mémoire, pas en base
 Article::factory()->create(['title' => 'Fixé']);    // une valeur imposée
 Article::factory()->draft()->create();              // avec l'état « draft »
@@ -348,32 +272,17 @@ Article::factory()->draft()->create();              // avec l'état « draft »
 Un **seeder** remplit la base avec des données de départ.
 
 ```php
-<?php
-
-namespace Database\Seeders;
-
-use App\Models\Article;
-use Illuminate\Database\Seeder;
-
-class ArticleSeeder extends Seeder
+// database/seeders/ArticleSeeder.php
+public function run(): void
 {
-    public function run(): void
-    {
-        Article::factory(20)->create();
-    }
+    Article::factory(20)->create();
 }
-```
 
-`DatabaseSeeder` est le seeder principal. Il appelle les autres :
-
-```php
+// database/seeders/DatabaseSeeder.php : le seeder principal appelle les autres
 public function run(): void
 {
     User::factory()->create(['name' => 'Test User', 'email' => 'test@example.com']);
-
-    $this->call([
-        ArticleSeeder::class,
-    ]);
+    $this->call([ArticleSeeder::class]);
 }
 ```
 

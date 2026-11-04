@@ -42,10 +42,10 @@ Les labels sont `Pseudo` et `Email` (champs `name="pseudo"` et `name="email"`). 
 > L'action de `useActionState` reçoit d'abord l'état précédent, puis le `FormData`. Si tu écris `useActionState(inscrire, …)`, `inscrire` reçoit l'état précédent au lieu des données. Un test le vérifie.
 
 > [!NOTE]
-> `useFormStatus` lit l'état du `<form>` **parent**. Il ne marche pas dans le composant qui rend le `<form>`. C'est pour ça que le bouton est un composant séparé.
+> `useFormStatus` lit l'état du `<form>` parent. Il ne marche pas dans le composant qui rend le `<form>`. C'est pour ça que le bouton est un composant séparé.
 
 > [!TIP]
-> Après une action réussie, React vide lui-même les champs non contrôlés du formulaire.
+> Quand l'action se termine, React vide lui-même les champs non contrôlés du formulaire, même en cas de refus.
 
 ## Lancer les tests
 

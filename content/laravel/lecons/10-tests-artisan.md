@@ -27,8 +27,6 @@ Tes données de développement ne sont jamais touchées.
 ## Un test Feature avec PHPUnit
 
 ```php
-<?php
-
 namespace Tests\Feature;
 
 use App\Models\Article;
@@ -64,8 +62,6 @@ class ArticleTest extends TestCase
 Tu le choisis à la création : `laravel new blog --pest`.
 
 ```php
-<?php
-
 use App\Models\Article;
 
 test('la liste affiche les articles', function () {
@@ -77,19 +73,10 @@ test('la liste affiche les articles', function () {
 });
 ```
 
-Dans `tests/Pest.php`, `RefreshDatabase` s'active pour tout le dossier :
-
-```php
-pest()->extend(Tests\TestCase::class)
-    ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
-    ->in('Feature');
-```
-
-Les assertions sont les mêmes. Les TP de ce parcours utilisent PHPUnit.
+Avec Pest, `RefreshDatabase` s'active dans `tests/Pest.php`. Les assertions sont les mêmes.
+Les TP de ce parcours utilisent PHPUnit.
 
 ## Les assertions courantes
-
-### Réponse HTTP
 
 | Assertion | Vérifie |
 |-----------|---------|
@@ -106,7 +93,7 @@ Les assertions sont les mêmes. Les TP de ce parcours utilisent PHPUnit.
 | `assertJsonPath('data.title', 'Mon API')` | la valeur à ce chemin |
 | `assertJsonCount(3, 'data')` | le nombre d'éléments sous `data` |
 
-### Base de données
+Pour la base de données :
 
 ```php
 $this->assertDatabaseHas('articles', ['title' => 'Mon titre']);
@@ -114,7 +101,9 @@ $this->assertDatabaseMissing('articles', ['id' => $article->id]);
 $this->assertDatabaseCount('articles', 3);
 ```
 
-## Tester un formulaire et la validation
+## Tester un formulaire avec `actingAs`
+
+`actingAs($user)` fait comme si `$user` était connecté. Sans lui, la requête vient d'un visiteur.
 
 ```php
 public function test_un_utilisateur_cree_un_article(): void
@@ -144,30 +133,14 @@ public function test_le_titre_est_obligatoire(): void
 }
 ```
 
-En test, la protection CSRF est désactivée : pas besoin de jeton.
-
-## Simuler un utilisateur : `actingAs`
-
-`actingAs($user)` fait comme si `$user` était connecté pour la requête.
+Deux vérifications d'accès en une ligne chacune :
 
 ```php
-public function test_un_visiteur_est_redirige_vers_login(): void
-{
-    $this->get('/articles/create')->assertRedirect('/login');
-}
-
-public function test_seul_l_auteur_peut_supprimer(): void
-{
-    $article = Article::factory()->create();       // auteur créé par la factory
-    $autre = User::factory()->create();
-
-    $this->actingAs($autre)
-        ->delete("/articles/{$article->id}")
-        ->assertForbidden();
-
-    $this->assertDatabaseHas('articles', ['id' => $article->id]);
-}
+$this->get('/articles/create')->assertRedirect('/login');                        // visiteur
+$this->actingAs($autre)->delete("/articles/{$article->id}")->assertForbidden();  // pas l'auteur
 ```
+
+En test, la protection CSRF est désactivée : pas besoin de jeton.
 
 ## Tester une API
 
@@ -185,29 +158,14 @@ public function test_la_creation_demande_un_titre(): void
         ->assertJsonValidationErrors(['title']);
 }
 
-public function test_la_liste_renvoie_trois_articles(): void
-{
-    Article::factory(3)->create();
-
-    $this->getJson('/api/articles')
-        ->assertOk()
-        ->assertJsonCount(3, 'data');
-}
+// lecture de la liste : $this->getJson('/api/articles')->assertOk()->assertJsonCount(3, 'data');
 ```
 
 ## Une commande artisan personnalisée
 
-```bash
-php artisan make:command PurgerBrouillons
-```
-
-Laravel crée `app/Console/Commands/PurgerBrouillons.php`. Elle est disponible tout de suite.
+`php artisan make:command PurgerBrouillons` crée `app/Console/Commands/PurgerBrouillons.php`. La commande est disponible tout de suite.
 
 ```php
-<?php
-
-namespace App\Console\Commands;
-
 use App\Models\Article;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
@@ -221,9 +179,7 @@ class PurgerBrouillons extends Command
     {
         $jours = (int) $this->argument('jours');
 
-        $requete = Article::whereNull('published_at')
-            ->where('created_at', '<', now()->subDays($jours));
-
+        $requete = Article::whereNull('published_at')->where('created_at', '<', now()->subDays($jours));
         $nombre = $requete->count();
 
         if (! $this->option('force') && ! $this->confirm("Supprimer {$nombre} brouillon(s) ?")) {
@@ -250,37 +206,16 @@ php artisan articles:purger 90 --force # 90 jours, sans confirmation
 > **Nouveau dans Laravel 13** : `make:command` utilise les attributs `#[Signature]` et `#[Description]`.
 > Avant, on écrivait `protected $signature = 'articles:purger {jours=30} {--force}';` et `protected $description = '…';`. Les deux marchent.
 
-Pour planifier la commande, écris dans `routes/console.php` :
-
-```php
-use Illuminate\Support\Facades\Schedule;
-
-Schedule::command('articles:purger --force')->daily();
-```
-
-En local, `php artisan schedule:work` lance le planificateur.
-Avant Laravel 11, le planning était dans `app/Console/Kernel.php`.
+Pour la lancer chaque jour, écris `Schedule::command('articles:purger --force')->daily();` dans `routes/console.php`.
+En local, `php artisan schedule:work` lance le planificateur. Avant Laravel 11, le planning était dans `app/Console/Kernel.php`.
 
 ## Les files d'attente (queues)
 
 Une **file d'attente** exécute une tâche plus tard, en arrière-plan. La réponse HTTP part tout de suite.
 Une tâche s'appelle un **job**.
 
-```bash
-php artisan make:job EnvoyerMailBienvenue
-```
-
 ```php
-<?php
-
-namespace App\Jobs;
-
-use App\Mail\Bienvenue;
-use App\Models\User;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Queue\Queueable;
-use Illuminate\Support\Facades\Mail;
-
+// php artisan make:job EnvoyerMailBienvenue → app/Jobs/EnvoyerMailBienvenue.php
 class EnvoyerMailBienvenue implements ShouldQueue
 {
     use Queueable;
@@ -294,13 +229,7 @@ class EnvoyerMailBienvenue implements ShouldQueue
 }
 ```
 
-```php
-EnvoyerMailBienvenue::dispatch($user);   // mis dans la file
-```
-
-```bash
-php artisan queue:work    # le worker exécute les jobs
-```
+Lance le job avec `EnvoyerMailBienvenue::dispatch($user);`. Le worker `php artisan queue:work` l'exécute.
 
 - Le `.env` contient `QUEUE_CONNECTION=database` : les jobs sont stockés dans la table `jobs`, déjà créée par les migrations de base.
 - `composer run dev` lance déjà un worker.
@@ -308,22 +237,8 @@ php artisan queue:work    # le worker exécute les jobs
 
 ## Les mails et leur aperçu
 
-```bash
-php artisan make:mail Bienvenue
-```
-
 ```php
-<?php
-
-namespace App\Mail;
-
-use App\Models\User;
-use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Queue\SerializesModels;
-
+// php artisan make:mail Bienvenue → app/Mail/Bienvenue.php
 class Bienvenue extends Mailable
 {
     use Queueable, SerializesModels;
@@ -344,10 +259,7 @@ class Bienvenue extends Mailable
 
 La vue `resources/views/mail/bienvenue.blade.php` reçoit les propriétés publiques, ici `$user`.
 
-```php
-Mail::to($user)->send(new Bienvenue($user));    // envoi immédiat
-Mail::to($user)->queue(new Bienvenue($user));   // envoi par la file d'attente
-```
+Envoi immédiat : `Mail::to($user)->send(new Bienvenue($user));`. Par la file : `->queue(...)` au lieu de `->send(...)`.
 
 **Aperçu dans le navigateur** : une route qui renvoie le mail l'affiche comme une page.
 
@@ -362,12 +274,9 @@ if (app()->isLocal()) {
 
 Avec `MAIL_MAILER=log` (valeur du `.env` de départ), les mails envoyés sont écrits dans `storage/logs/laravel.log`.
 
-### Tester sans envoyer
+En test, intercepte les mails et les jobs :
 
 ```php
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Queue;
-
 Mail::fake();
 // … action qui envoie le mail …
 Mail::assertSent(Bienvenue::class);

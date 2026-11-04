@@ -12,9 +12,9 @@ function promesseControlee() {
   return { promesse, resoudre };
 }
 
-async function remplirEtEnvoyer(user, pseudo = 'lea', email = 'lea@exemple.fr') {
-  await user.type(screen.getByLabelText('Pseudo'), pseudo);
-  await user.type(screen.getByLabelText('Email'), email);
+async function remplirEtEnvoyer(user) {
+  await user.type(screen.getByLabelText('Pseudo'), 'lea');
+  await user.type(screen.getByLabelText('Email'), 'lea@exemple.fr');
   await user.click(screen.getByRole('button', { name: "S'inscrire" }));
 }
 
@@ -98,7 +98,7 @@ describe('08 · Formulaire avec useActionState (React 19)', () => {
     const inscrire = vi
       .fn()
       .mockResolvedValueOnce({ ok: false, message: 'Ce pseudo est déjà pris.' })
-      .mockResolvedValueOnce({ ok: true, message: 'Bienvenue lea2 !' });
+      .mockResolvedValueOnce({ ok: true, message: 'Bienvenue lea !' });
     render(<Inscription inscrire={inscrire} />);
 
     await remplirEtEnvoyer(user);
@@ -106,7 +106,7 @@ describe('08 · Formulaire avec useActionState (React 19)', () => {
     // Deuxième envoi : React a déjà vidé le formulaire, on clique simplement à nouveau.
     await user.click(screen.getByRole('button', { name: "S'inscrire" }));
 
-    expect(await screen.findByRole('status')).toHaveTextContent('Bienvenue lea2 !');
+    expect(await screen.findByRole('status')).toHaveTextContent('Bienvenue lea !');
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
   });
 

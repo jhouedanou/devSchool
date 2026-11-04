@@ -28,8 +28,8 @@ export default [
     question: 'Complète la méthode qui renvoie 10 articles par page.',
     code: '$articles = Article::latest()->____(10);',
     langage: 'php',
-    acceptees: ['paginate', 'simplePaginate'],
-    explication: 'paginate(10) lit ?page= dans l’URL et renvoie 10 éléments. simplePaginate(10) fait pareil sans compter le total.',
+    acceptees: ['paginate', 'simplePaginate', 'cursorPaginate'],
+    explication: 'paginate(10) lit ?page= dans l’URL et renvoie 10 éléments. simplePaginate(10) fait pareil sans compter le total ; cursorPaginate(10) pagine avec un curseur.',
   },
   {
     type: 'texte',

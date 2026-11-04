@@ -1,0 +1,144 @@
+/* Feuille de style simple pour le blog des TP. Pas besoin de Vite. */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    color: #1f2933;
+    background: #f7f7f5;
+}
+
+header {
+    background: #ffffff;
+    border-bottom: 1px solid #e4e4e0;
+}
+
+nav {
+    max-width: 52rem;
+    margin: 0 auto;
+    padding: 0.75rem 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+}
+
+nav a {
+    color: #1f2933;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+nav a:hover {
+    color: #f05340;
+}
+
+nav form {
+    margin: 0;
+}
+
+main {
+    max-width: 52rem;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 3rem;
+}
+
+h1 {
+    margin-top: 0;
+    line-height: 1.2;
+}
+
+a {
+    color: #c0392b;
+}
+
+.flash {
+    padding: 0.75rem 1rem;
+    border-radius: 0.375rem;
+    background: #e6f4ea;
+    border: 1px solid #b7dfc3;
+    color: #1e5631;
+}
+
+.erreur {
+    color: #b42318;
+    font-size: 0.9rem;
+    margin: 0.25rem 0 0;
+}
+
+form .champ {
+    margin-bottom: 1rem;
+}
+
+label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+    width: 100%;
+    padding: 0.5rem 0.625rem;
+    border: 1px solid #c9c9c4;
+    border-radius: 0.375rem;
+    font: inherit;
+    background: #ffffff;
+}
+
+textarea {
+    min-height: 10rem;
+}
+
+button,
+.bouton {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border: 0;
+    border-radius: 0.375rem;
+    background: #1f2933;
+    color: #ffffff;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+button.danger {
+    background: #b42318;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 0.5rem;
+    border-bottom: 1px solid #e4e4e0;
+    vertical-align: top;
+}
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.actions form {
+    margin: 0;
+}
+
+.meta {
+    color: #616e7c;
+    font-size: 0.9rem;
+}

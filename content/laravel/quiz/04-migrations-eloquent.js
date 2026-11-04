@@ -36,11 +36,11 @@ export default [
   },
   {
     type: 'texte',
-    question: 'Complète la commande qui supprime toutes les tables, rejoue les migrations puis lance les seeders.',
+    question: 'Complète la commande qui supprime directement toutes les tables (sans appeler les méthodes down()), rejoue les migrations puis lance les seeders.',
     code: 'php artisan ____ --seed',
     langage: 'bash',
     acceptees: ['migrate:fresh'],
-    explication: 'migrate:fresh supprime toutes les tables puis lance migrate. --seed lance ensuite DatabaseSeeder. Toutes les données sont perdues.',
+    explication: 'migrate:fresh supprime toutes les tables puis lance migrate ; --seed lance ensuite DatabaseSeeder. migrate:refresh, lui, annule les migrations une par une avec down(). Dans les deux cas, les données sont perdues.',
   },
   {
     type: 'texte',
