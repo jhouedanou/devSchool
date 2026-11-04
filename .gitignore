@@ -1,0 +1,19 @@
+node_modules/
+.DS_Store
+*.log
+.env
+# Nuxt
+.nuxt/
+.output/
+.data/
+# Laravel
+vendor/
+tp/laravel/storage/*.key
+tp/laravel/database/*.sqlite
+tp/laravel/public/hot
+tp/laravel/public/storage
+tp/laravel/.phpunit.result.cache
+tp/laravel/.phpunit.cache/
+# Vite / Vitest
+dist/
+coverage/

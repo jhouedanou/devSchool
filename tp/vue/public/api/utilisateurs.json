@@ -1,0 +1,6 @@
+[
+  { "id": 1, "nom": "Ada Lovelace", "email": "ada@exemple.fr" },
+  { "id": 2, "nom": "Alan Turing", "email": "alan@exemple.fr" },
+  { "id": 3, "nom": "Grace Hopper", "email": "grace@exemple.fr" },
+  { "id": 4, "nom": "Margaret Hamilton", "email": "margaret@exemple.fr" }
+]

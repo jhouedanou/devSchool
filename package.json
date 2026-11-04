@@ -1,0 +1,12 @@
+{
+  "name": "devschool",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Site d'apprentissage : Vue, Nuxt, React et Laravel (leçons, quiz, exercices, TP).",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/serveur.mjs 8080",
+    "verifier": "node scripts/verifier-contenu.mjs",
+    "verifier:exercices": "node scripts/verifier-exercices.mjs"
+  }
+}

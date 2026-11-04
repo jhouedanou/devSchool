@@ -1,0 +1,117 @@
+export default [
+  {
+    type: 'unique',
+    question: 'Quelle est la différence principale entre useRef et useState ?',
+    choix: [
+      'Changer ref.current ne déclenche pas de nouveau rendu',
+      'useRef ne garde pas sa valeur entre les rendus',
+      'useState ne peut contenir que des nombres',
+      'useRef ne sert qu\'à accéder au DOM',
+    ],
+    reponse: 0,
+    explication: 'Les deux gardent leur valeur entre les rendus. Seul un changement d\'état provoque un nouveau rendu.',
+  },
+  {
+    type: 'texte',
+    question: 'Complète pour donner le focus au champ.',
+    code: `const champRef = useRef(null);
+// …
+<input ref={champRef} />
+<button onClick={() => champRef.____.focus()}>Focus</button>`,
+    langage: 'jsx',
+    acceptees: ['current'],
+    explication: 'Après l\'affichage, champRef.current contient l\'élément <input> du DOM.',
+  },
+  {
+    type: 'unique',
+    question: 'Où peux-tu lire ou modifier ref.current sans risque ?',
+    choix: [
+      'Dans un gestionnaire d\'événement ou un effet',
+      'Directement dans le JSX renvoyé',
+      'Dans le corps du composant, avant le return',
+      'Dans la valeur initiale de useState',
+    ],
+    reponse: 0,
+    explication: 'Pendant le rendu, la ref peut être null ou périmée. Lis-la et modifie-la dans les événements et les effets.',
+  },
+  {
+    type: 'unique',
+    question: 'À quoi sert useMemo ?',
+    code: 'const visibles = useMemo(() => filtrer(produits, recherche), [produits, recherche]);',
+    langage: 'jsx',
+    choix: [
+      'Garder en cache le résultat d\'un calcul tant que les dépendances ne changent pas',
+      'Enregistrer une valeur dans le localStorage',
+      'Empêcher le composant de refaire son rendu',
+      'Créer une ref',
+    ],
+    reponse: 0,
+    explication: 'Le calcul n\'est refait que si produits ou recherche changent. Réserve-le aux calculs coûteux.',
+  },
+  {
+    type: 'unique',
+    question: 'useCallback(fn, deps) équivaut à…',
+    choix: ['useMemo(() => fn, deps)', 'useMemo(fn, deps)', 'useRef(fn)', 'useEffect(fn, deps)'],
+    reponse: 0,
+    explication: 'useCallback met en cache la fonction elle-même. useMemo(fn, deps) mettrait en cache le résultat de fn().',
+  },
+  {
+    type: 'unique',
+    question: 'LigneTache est enveloppée dans memo. Pourquoi refait-elle quand même son rendu à chaque rendu du parent ?',
+    code: '<LigneTache tache={t} onSupprimer={(id) => supprimer(id)} />',
+    langage: 'jsx',
+    choix: [
+      'La fonction fléchée est recréée à chaque rendu, donc la prop onSupprimer change',
+      'memo ne marche pas avec les fonctions fléchées',
+      'tache est en lecture seule',
+      'Il manque une key',
+    ],
+    reponse: 0,
+    explication: 'memo compare les props. Une nouvelle fonction est une nouvelle valeur. useCallback (ou React Compiler) garde la même fonction.',
+  },
+  {
+    type: 'unique',
+    question: 'Que fait React Compiler ?',
+    choix: [
+      'Il ajoute la mémoïsation automatiquement à la compilation',
+      'Il remplace useState par des signaux',
+      'Il supprime les effets inutiles',
+      'Il transforme les composants en classes',
+    ],
+    reponse: 0,
+    explication: 'Avec lui, tu écris rarement useMemo, useCallback ou memo à la main.',
+  },
+  {
+    type: 'texte',
+    question: 'Complète la déclaration.',
+    code: 'const [state, ____] = useReducer(panierReducer, etatInitial);',
+    langage: 'jsx',
+    acceptees: ['dispatch'],
+    explication: 'dispatch(action) envoie une action au reducer, qui calcule le nouvel état.',
+  },
+  {
+    type: 'multiple',
+    question: 'Lesquelles sont vraies pour un reducer ?',
+    choix: [
+      'Il renvoie un nouvel état sans modifier l\'ancien',
+      'Il peut lancer un fetch',
+      'Il reçoit (state, action)',
+      'Il peut utiliser Math.random()',
+      'Il se teste sans React',
+    ],
+    reponses: [0, 2, 4],
+    explication: 'Un reducer est une fonction pure : même entrée, même sortie, sans effet de bord. Pas de réseau ni de hasard.',
+  },
+  {
+    type: 'unique',
+    question: 'Quand préférer useReducer à useState ?',
+    choix: [
+      'Quand plusieurs valeurs liées changent de beaucoup de façons différentes',
+      'Pour une simple case à cocher',
+      'Pour accéder à un élément du DOM',
+      'Pour charger des données au montage',
+    ],
+    reponse: 0,
+    explication: 'useReducer regroupe la logique dans une fonction testable. Pour une ou deux valeurs simples, useState suffit.',
+  },
+];
