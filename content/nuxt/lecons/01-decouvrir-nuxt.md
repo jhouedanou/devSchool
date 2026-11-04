@@ -195,4 +195,4 @@ Lance-les avec `npm run dev`, `npm run build`… ou avec `npx nuxt <commande>`.
 
 ## Pour pratiquer
 
-Cette leçon n'a pas d'exercice dans le navigateur. Fais son quiz, puis installe le projet de TP et commence par [le TP « Pages et layout »](#/nuxt/tp/01-pages-layout) après [la leçon sur les pages](#/nuxt/lecon/02-pages-routage).
+Cette leçon n'a pas d'exercice dans le navigateur. Fais son quiz, puis [installe le projet de TP](#/nuxt/installation). Tu commenceras par [le TP « Pages et layout »](#/nuxt/tp/01-pages-layout), après [la leçon sur les pages](#/nuxt/lecon/02-pages-routage).

@@ -224,4 +224,8 @@ NITRO_PRESET=netlify npx nuxt build
 
 ## Pour pratiquer
 
-Cette leçon n'a pas d'exercice dans le navigateur. Dans le projet de TP, ajoute une clé `public.apiBase` à `runtimeConfig`, lance `npm run build`, puis démarre `.output/server/index.mjs` avec `NUXT_PUBLIC_API_BASE` défini. Vérifie le résultat dans [le TP « API serveur de tâches »](#/nuxt/tp/03-api-taches).
+Cette leçon n'a pas d'exercice dans le navigateur. Après [le TP « API serveur de tâches »](#/nuxt/tp/03-api-taches), entraîne-toi dans le projet de TP :
+
+1. Lance `npm run build`, puis `node .output/server/index.mjs`, et ouvre `http://localhost:3000/api/taches`.
+2. Ajoute une clé `public.nomDuSite` à `runtimeConfig` et affiche-la dans le layout avec `useRuntimeConfig()`.
+3. Reconstruis, puis démarre le serveur avec `NUXT_PUBLIC_NOM_DU_SITE="Mes tâches"` : le nom change sans nouveau build.

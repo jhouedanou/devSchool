@@ -262,4 +262,4 @@ if (!produit.value) {
 
 ## Pour pratiquer
 
-Fais [l'exercice « Une page produit dynamique »](#/nuxt/exercice/02-page-produit). Ensuite, enchaîne avec [le TP « Pages et layout »](#/nuxt/tp/01-pages-layout) et [le TP « Route dynamique /produits/[id] »](#/nuxt/tp/02-route-dynamique).
+Fais [l'exercice « Une page produit dynamique »](#/nuxt/exercice/02-page-produit). Ensuite, enchaîne avec [le TP « Pages et layout »](#/nuxt/tp/01-pages-layout) et [le TP « Route dynamique »](#/nuxt/tp/02-route-dynamique).

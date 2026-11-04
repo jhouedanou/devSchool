@@ -185,4 +185,4 @@ const numeroStable = useState('numero', () => Math.floor(Math.random() * 100))
 
 ## Pour pratiquer
 
-Fais [l'exercice « Les balises SEO d'une fiche produit »](#/nuxt/exercice/08-seo-produit). Ensuite, reprends [le TP « Route dynamique /produits/[id] »](#/nuxt/tp/02-route-dynamique) et ajoute `useSeoMeta` à la fiche produit.
+Fais [l'exercice « Les balises SEO d'une fiche produit »](#/nuxt/exercice/08-seo-produit). Ensuite, reprends [le TP « Route dynamique »](#/nuxt/tp/02-route-dynamique) et ajoute `useSeoMeta` à la fiche produit.
