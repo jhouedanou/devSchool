@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
 /**
@@ -72,6 +73,8 @@ class Tp04CategoriesRelationsTest extends TestCase
 
     public function test_un_article_peut_ne_pas_avoir_de_categorie(): void
     {
+        $this->assertTrue(Schema::hasColumn('articles', 'categorie_id'), 'Ajoute la colonne categorie_id à la table articles.');
+
         $article = Article::create([
             'titre' => 'Sans catégorie',
             'slug' => 'sans-categorie',
@@ -79,7 +82,8 @@ class Tp04CategoriesRelationsTest extends TestCase
             'publie' => true,
         ]);
 
-        $this->assertNull($article->fresh()->categorie);
+        $this->assertNull($article->fresh()->categorie_id);
+        $this->assertNull($article->fresh()->categorie()->first());
     }
 
     public function test_la_page_d_une_categorie_liste_ses_articles_publies(): void

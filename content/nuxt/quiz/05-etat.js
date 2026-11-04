@@ -1,7 +1,7 @@
 export default [
   {
     type: 'unique',
-    question: 'Pourquoi « export const panier = ref([]) » dans un fichier est-il dangereux avec Nuxt ?',
+    question: 'Pourquoi `export const panier = ref([])` dans un fichier est-il dangereux avec Nuxt ?',
     choix: [
       'Côté serveur, cette ref est partagée entre toutes les requêtes',
       'Une ref ne peut pas contenir de tableau',
@@ -17,11 +17,11 @@ export default [
     code: "const compteur = ________('compteur', () => 0)",
     langage: 'ts',
     acceptees: ['useState'],
-    explication: 'useState(cle, init) crée l’état par requête côté serveur et le transmet au navigateur.',
+    explication: '`useState(cle, init)` crée l’état par requête côté serveur et le transmet au navigateur.',
   },
   {
     type: 'unique',
-    question: 'Deux composants appellent useState(\'panier\', () => []). Que se passe-t-il ?',
+    question: 'Deux composants appellent `useState(\'panier\', () => [])`. Que se passe-t-il ?',
     choix: [
       'Ils partagent la même valeur',
       'Chacun a son propre panier',
@@ -29,11 +29,11 @@ export default [
       'Le second appel vide le panier',
     ],
     reponse: 0,
-    explication: 'La clé identifie l’état. La fonction init ne sert qu’à la première création.',
+    explication: 'La clé identifie l’état. La fonction `init` ne sert qu’à la première création.',
   },
   {
     type: 'multiple',
-    question: 'Que ne faut-il pas mettre dans useState ?',
+    question: 'Que ne faut-il pas mettre dans `useState` ?',
     choix: ['Une fonction', 'Une instance de classe', 'Un tableau d’objets simples', 'Un nombre'],
     reponses: [0, 1],
     explication: 'La valeur voyage du serveur au navigateur : elle doit être sérialisable. Pas de fonction, de classe ni de symbole.',
@@ -41,9 +41,9 @@ export default [
   {
     type: 'unique',
     question: 'Quel outil garde une valeur après un rechargement de page, tout en restant lisible côté serveur ?',
-    choix: ['useCookie', 'useState', 'localStorage', 'Une ref'],
+    choix: ['`useCookie`', '`useState`', '`localStorage`', 'Une `ref`'],
     reponse: 0,
-    explication: 'Le cookie est envoyé avec chaque requête : le serveur le lit. localStorage n’existe que dans le navigateur.',
+    explication: 'Le cookie est envoyé avec chaque requête : le serveur le lit. `localStorage` n’existe que dans le navigateur.',
   },
   {
     type: 'texte',
@@ -51,14 +51,14 @@ export default [
     code: 'npx nuxt module add ____',
     langage: 'bash',
     acceptees: ['pinia'],
-    explication: 'Elle installe pinia et @pinia/nuxt, et ajoute le module à nuxt.config.ts.',
+    explication: 'Elle installe `pinia` et `@pinia/nuxt`, et ajoute le module à `nuxt.config.ts`.',
   },
   {
     type: 'unique',
     question: 'En Nuxt 4, où le module Pinia cherche-t-il les stores à auto-importer ?',
-    choix: ['app/stores/', 'stores/ à la racine', 'server/stores/', 'shared/stores/'],
+    choix: ['`app/stores/`', '`stores/` à la racine', '`server/stores/`', '`shared/stores/`'],
     reponse: 0,
-    explication: 'Avec la structure Nuxt 4, les stores vont dans app/stores/.',
+    explication: 'Avec la structure Nuxt 4, les stores vont dans `app/stores/`.',
   },
   {
     type: 'unique',
@@ -66,17 +66,17 @@ export default [
     code: 'const { total } = usePanierStore()',
     langage: 'ts',
     choix: [
-      'total perd sa réactivité : il faut utiliser storeToRefs()',
-      'Il faut écrire usePanierStore.total',
+      '`total` perd sa réactivité : il faut utiliser `storeToRefs()`',
+      'Il faut écrire `usePanierStore.total`',
       'Le store n’est pas encore créé',
       'Aucun problème',
     ],
     reponse: 0,
-    explication: 'Déstructurer un store copie les valeurs. storeToRefs(store) renvoie des refs reliées au store.',
+    explication: 'Déstructurer un store copie les valeurs. `storeToRefs(store)` renvoie des refs reliées au store.',
   },
   {
     type: 'unique',
-    question: 'À quoi sert callOnce() ?',
+    question: 'À quoi sert `callOnce()` ?',
     choix: [
       'À exécuter un code une seule fois : sur le serveur, sans le refaire pendant l’hydratation',
       'À appeler une API une fois par seconde',
@@ -84,6 +84,6 @@ export default [
       'À empêcher un double clic',
     ],
     reponse: 0,
-    explication: 'callOnce sert par exemple à remplir un useState ou un store au chargement de l’app.',
+    explication: '`callOnce` sert par exemple à remplir un `useState` ou un store au chargement de l’app.',
   },
 ];

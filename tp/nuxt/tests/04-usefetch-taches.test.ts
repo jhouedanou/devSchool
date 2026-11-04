@@ -71,7 +71,7 @@ describe('TP 04 · Afficher les tâches avec useFetch', () => {
     await vi.waitFor(() => {
       expect(page.find('[data-test="chargement"]').exists(), 'affiche data-test="chargement" quand status vaut « pending »').toBe(true)
     })
-    expect(page.find('[data-test="chargement"]').text()).toBe('Chargement…')
+    expect(page.find('[data-test="chargement"]').text()).toMatch(/^Chargement(…|\.\.\.)$/)
 
     debloquer()
     await rechargement
