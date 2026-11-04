@@ -105,8 +105,8 @@ export default {
   tps: [
     { id: '01-compteur', titre: 'Compteur avec historique', duree: 30, niveau: 1, resume: 'Un compteur qui garde la liste de ses valeurs précédentes et permet d’annuler.' },
     { id: '02-todo-list', titre: 'Liste de tâches', duree: 45, niveau: 1, resume: 'Ajouter, cocher, filtrer et supprimer des tâches avec un état en tableau.' },
-    { id: '03-formulaire-contact', titre: 'Formulaire de contact validé', duree: 45, niveau: 2, resume: 'Un formulaire contrôlé avec des messages d’erreur et un envoi simulé.' },
-    { id: '04-liste-utilisateurs', titre: 'Liste d\'utilisateurs avec fetch', duree: 45, niveau: 2, resume: 'Charger des utilisateurs depuis une API avec les états chargement, erreur et succès.' },
+    { id: '03-formulaire-contact', titre: 'Formulaire de contact validé', duree: 45, niveau: 2, resume: 'Un formulaire contrôlé qui affiche ses erreurs sous les champs et se vide après l’envoi.' },
+    { id: '04-liste-utilisateurs', titre: 'Liste d\'utilisateurs avec fetch', duree: 45, niveau: 2, resume: 'Charger des utilisateurs depuis une API, avec chargement, erreur, filtre et bouton « Recharger ».' },
     { id: '05-theme-context', titre: 'Thème clair/sombre avec Context', duree: 40, niveau: 2, resume: 'Partager un thème clair ou sombre dans toute l’application avec un contexte.' },
     { id: '06-hook-local-storage', titre: 'Hook useLocalStorage', duree: 40, niveau: 2, resume: 'Écrire un hook qui garde une valeur dans le localStorage entre deux visites.' },
     { id: '07-panier-reducer', titre: 'Panier avec useReducer', duree: 60, niveau: 3, resume: 'Gérer un panier (ajout, quantité, suppression, total) avec un reducer testé.' },

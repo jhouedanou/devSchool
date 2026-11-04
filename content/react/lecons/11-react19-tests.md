@@ -198,10 +198,14 @@ import '@testing-library/jest-dom/vitest';
 
 Ajoute `"test": "vitest"` dans les scripts de `package.json`. `npm test` relance les tests à chaque modification ; `npx vitest run` les lance une fois.
 
+> [!NOTE]
+> `globals: true` rend `test`, `expect` et `vi` disponibles sans import, et Testing Library démonte les composants après chaque test. Sans cette option (c'est le cas dans les TP), importe-les depuis `vitest` et appelle `cleanup()` dans un `afterEach` du fichier de setup.
+
 ### Un premier test
 
 ```jsx
 // src/Compteur.test.jsx
+import { expect, test } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Compteur from './Compteur';

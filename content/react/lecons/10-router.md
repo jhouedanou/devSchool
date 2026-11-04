@@ -263,4 +263,4 @@ Il n'y a pas d'exercice dans le navigateur pour cette leçon : le routeur a beso
 3. une page `/users/:id` qui affiche l'id lu avec `useParams` et un bouton « Retour » avec `navigate(-1)` ;
 4. une page 404.
 
-Pour aller plus loin, reprends le TP [Liste d'utilisateurs avec fetch](#/react/tp/04-liste-utilisateurs) et ajoute une page de détail par utilisateur.
+Pour aller plus loin, copie dans ce projet ton composant du TP [Liste d'utilisateurs avec fetch](#/react/tp/04-liste-utilisateurs) et ajoute une page de détail par utilisateur, chargée avec un loader (mode data).
