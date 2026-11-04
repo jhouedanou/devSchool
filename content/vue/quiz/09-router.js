@@ -67,7 +67,7 @@ export default [
     code: "{ path: '/:pathMatch(____)*', name: 'introuvable', component: PageIntrouvable }",
     langage: 'js',
     acceptees: ['.*'],
-    explication: "(.*) accepte n'importe quels caractères, slashs compris. Le * final rend le paramètre répétable.",
+    explication: "`(.*)` accepte n'importe quels caractères, slashs compris. Le `*` final rend le paramètre répétable.",
   },
   {
     type: 'unique',

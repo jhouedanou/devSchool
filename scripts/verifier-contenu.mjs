@@ -110,5 +110,40 @@ for (const id of parcours) {
   console.log(`  ${p.lecons.length} leçons · ${nbQuestions} questions · ${idsExos.size} exercices · ${(p.tps || []).length} TP`);
 }
 
+// Liens internes (#/parcours/type/id) dans les leçons et les énoncés de TP
+console.log('\n▸ liens internes');
+const index = {};
+for (const id of catalogue) {
+  try {
+    const p = (await import(pathToFileURL(join(RACINE, `content/${id}/index.js`)))).default;
+    index[id] = {
+      lecon: new Set(p.lecons.map((l) => l.id)),
+      quiz: new Set(p.lecons.map((l) => l.id)),
+      exercice: new Set(p.lecons.flatMap((l) => l.exercices || [])),
+      tp: new Set((p.tps || []).map((t) => t.id)),
+    };
+  } catch { /* parcours absent : déjà signalé */ }
+}
+const { readdir } = await import('node:fs/promises');
+async function fichiersMd(dossier) {
+  const liste = await readdir(join(RACINE, dossier)).catch(() => []);
+  return liste.filter((f) => f.endsWith('.md')).map((f) => `${dossier}/${f}`);
+}
+let nbLiens = 0;
+for (const id of parcours) {
+  const fichiers = [...await fichiersMd(`content/${id}/lecons`), ...await fichiersMd(`tp/${id}/enonces`)];
+  if (await existe(`tp/${id}/README.md`)) fichiers.push(`tp/${id}/README.md`);
+  for (const f of fichiers) {
+    const texte = await readFile(join(RACINE, f), 'utf8');
+    for (const m of texte.matchAll(/\]\(#\/([\w-]+)(?:\/(lecon|quiz|exercice|tp|examen|installation)(?:\/([\w-]+))?)?\)/g)) {
+      nbLiens++;
+      const [lien, p, type, cible] = m;
+      if (!index[p]) { erreur(`${f} : parcours inconnu dans ${lien.slice(2)}`); continue; }
+      if (cible && !index[p][type]?.has(cible)) erreur(`${f} : lien cassé ${lien.slice(2)}`);
+    }
+  }
+}
+console.log(`  ${nbLiens} liens vérifiés`);
+
 console.log(`\n${erreurs ? '✗' : '✓'} ${erreurs} erreur(s), ${avertissements} avertissement(s)`);
 process.exit(erreurs ? 1 : 0);

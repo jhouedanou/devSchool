@@ -9,4 +9,8 @@ export default defineNuxtConfig({
       htmlAttrs: { lang: 'fr' },
     },
   },
+  typescript: {
+    // Donne aux fichiers de tests/ les mêmes types que l'application (#imports, ~/…).
+    tsConfig: { include: ['../tests/**/*'] },
+  },
 })

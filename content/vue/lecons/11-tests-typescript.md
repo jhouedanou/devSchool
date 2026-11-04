@@ -30,7 +30,7 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      environment: 'jsdom', // un faux navigateur
+      environment: 'jsdom', // un faux navigateur (ou 'happy-dom')
       exclude: [...configDefaults.exclude, 'e2e/**'],
       root: fileURLToPath(new URL('./', import.meta.url)),
     },
@@ -262,7 +262,7 @@ const theme = inject(CLE_THEME)    // Ref<'clair' | 'sombre'> | undefined
 ## Pièges fréquents
 
 - **Oublier `await`** devant `trigger` ou `setValue` : le DOM n'est pas encore à jour quand `expect` s'exécute.
-- **Oublier `environment: 'jsdom'`** : erreur « document is not defined ».
+- **Oublier `environment: 'jsdom'`** (ou `'happy-dom'`) : erreur « document is not defined ».
 - **Ne pas attendre un fetch** : utilise `await flushPromises()` après le montage.
 - **Réutiliser la même Pinia entre les tests** : l'état d'un test pollue le suivant. `setActivePinia(createPinia())` dans `beforeEach`.
 - **Croire que Vite vérifie les types** : lance `vue-tsc` (ou `npm run type-check`).
@@ -280,4 +280,4 @@ const theme = inject(CLE_THEME)    // Ref<'clair' | 'sombre'> | undefined
 
 ## Pour pratiquer
 
-Le runner du navigateur ne lance pas Vitest : cette leçon n'a pas d'exercice en ligne. Tous les TP du dossier `tp/vue/` sont vérifiés par des tests Vitest + Vue Test Utils. Lis ceux du TP [Compteur borné](#/vue/tp/01-compteur), puis ajoute un test à ceux du TP [Panier avec Pinia](#/vue/tp/06-panier-pinia).
+Le runner du navigateur ne lance pas Vitest : cette leçon n'a pas d'exercice en ligne. Tous les TP du dossier `tp/vue/` sont vérifiés par des tests Vitest + Vue Test Utils, rangés dans `tp/vue/tests/`. Lis `tests/01-compteur.test.js` (`mount`, `trigger`) et `tests/03-catalogue-produits.test.js` (`setValue`, `emitted`), puis ajoute un test à ceux du TP [Panier avec Pinia](#/vue/tp/06-panier-pinia).
