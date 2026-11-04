@@ -16,11 +16,12 @@ async function appeler(methode: 'GET' | 'POST', chemin: string, corps?: unknown)
     body: corps === undefined ? undefined : JSON.stringify(corps),
   })
   const texte = await reponse.text()
-  let donnees: unknown = texte
+  let donnees: unknown
   try {
     donnees = JSON.parse(texte)
   } catch {
-    // La réponse n'est pas du JSON : on garde le texte.
+    // Pas de JSON : souvent une page HTML, car la route API n'existe pas encore.
+    donnees = `Réponse qui n'est pas du JSON (la route existe-t-elle ?) : ${texte.slice(0, 60)}…`
   }
   return { statut: reponse.status, donnees }
 }
