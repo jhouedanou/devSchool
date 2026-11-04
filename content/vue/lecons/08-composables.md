@@ -142,7 +142,12 @@ const { donnees: articles, erreur, chargement } = useFetch(
 Le getter lit `page.value`. Quand `page` change, `watchEffect` relance la requête.
 
 > [!WARNING]
-> `useFetch(\`/api/articles?page=${page.value}\`)` passe une **chaîne** calculée une seule fois. Le composable ne verra jamais le changement de page. Passe un getter : `() => \`...\``.
+> Passe un getter, pas la chaîne déjà calculée :
+>
+> ```js
+> useFetch(`/api/articles?page=${page.value}`)       // ❌ chaîne calculée une seule fois
+> useFetch(() => `/api/articles?page=${page.value}`) // ✅ relu à chaque changement
+> ```
 
 > [!NOTE]
 > `fetch` ne lève pas d'erreur pour un statut 404 ou 500. Vérifie toujours `reponse.ok`.
