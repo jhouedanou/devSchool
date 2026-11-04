@@ -118,14 +118,14 @@ Mélanger ces règles s'appelle le **rendu hybride**. Il demande un serveur : il
 
 ## Un site statique : `nuxt generate`
 
-`nuxt generate` construit l'app puis **prérend** les pages. Un robot part de `/`, suit chaque lien `<a href>` trouvé et enregistre le HTML et les données de chaque page dans `.output/public/`.
+`nuxt generate` construit l'app puis **prérend** les pages. Un robot part de `/` et des pages sans paramètre de `app/pages/`. Il suit chaque lien `<a href>` trouvé et enregistre le HTML et les données de chaque page dans `.output/public/`.
 
 ```bash
 npx nuxt generate
 npx serve .output/public    # pour tester le résultat
 ```
 
-Une page qu'aucun lien n'atteint n'est pas générée. Ajoute-la à la main :
+Une page dynamique (comme `/produits/42`) qu'aucun lien n'atteint n'est pas générée. Ajoute-la à la main :
 
 ```ts
 // nuxt.config.ts
@@ -170,7 +170,7 @@ const numeroStable = useState('numero', () => Math.floor(Math.random() * 100))
 
 - **Une valeur lue une seule fois.** `useSeoMeta({ title: produit.value?.nom })` lit la valeur à l'appel. Si les données changent ensuite, passe une fonction ou un `computed`.
 - **Une fonction `titleTemplate` dans `nuxt.config.ts`.** Seule la forme chaîne (`'%s · Ma boutique'`) y est acceptée. Mets la fonction dans `app.vue`.
-- **Une page oubliée par `nuxt generate`.** Sans lien vers elle, ajoute-la dans `prerender.routes`.
+- **Une page dynamique oubliée par `nuxt generate`.** Sans lien vers elle, ajoute-la dans `prerender.routes`.
 - **`routeRules` hybrides avec `nuxt generate`.** Le rendu hybride a besoin d'un serveur : utilise `nuxt build`.
 - **Ignorer les avertissements d'hydratation.** Ils signalent un vrai problème : corrige-les.
 - **Mettre des données sensibles dans une page prérendue.** Le HTML est public et identique pour tout le monde.
