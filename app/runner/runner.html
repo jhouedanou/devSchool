@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aperçu</title>
+<style>
+  :root { color-scheme: light; }
+  html, body { margin: 0; background: #ffffff; color: #1f2328; }
+  body { font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; padding: 14px; }
+  #app:empty::before { content: "Aucun rendu pour l'instant."; color: #8a8f98; font-style: italic; }
+  button { font: inherit; margin: 2px; padding: 6px 12px; border-radius: 6px; border: 1px solid #c8ccd2; background: #f6f8fa; cursor: pointer; }
+  button:hover { background: #eef1f4; }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  input, select, textarea { font: inherit; padding: 6px 8px; border-radius: 6px; border: 1px solid #c8ccd2; }
+  input[type="checkbox"], input[type="radio"] { padding: 0; }
+  ul, ol { padding-left: 22px; }
+  .chargement { color: #8a8f98; font-style: italic; }
+</style>
+</head>
+<body>
+<div id="app"><span class="chargement">Chargement…</span></div>
+<script src="runner.js"></script>
+</body>
+</html>
