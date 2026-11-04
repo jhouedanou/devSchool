@@ -37,6 +37,9 @@ php artisan make:controller ArticleController
 
 `-mfs` crée en une fois la migration, la factory et le seeder.
 
+> [!NOTE]
+> Les leçons utilisent des noms de colonnes anglais (`title`, `body`). Ici, ils sont en français (`titre`, `contenu`, `publie`), car les tests les attendent ainsi.
+
 ## Étapes
 
 1. Dans la migration, crée la table `articles` avec ces colonnes :

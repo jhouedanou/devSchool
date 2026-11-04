@@ -116,6 +116,10 @@ const { donnees: utilisateurs, erreur, chargement } = useFetch(() => \`/api/util
     'fetch ne lève pas d\'erreur pour un statut 404 ou 500 : teste reponse.ok toi-même.',
     'Avec try / catch / finally, chargement repasse à false dans tous les cas.',
   ],
+  // Données renvoyées par fetch dans l'aperçu (les tests ont leurs propres données).
+  apercuFetch: {
+    '/api/utilisateurs': [{ id: 1, nom: 'Ada' }, { id: 2, nom: 'Grace' }],
+  },
   tests: [
     {
       nom: 'Affiche les utilisateurs reçus',

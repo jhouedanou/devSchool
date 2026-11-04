@@ -8,6 +8,9 @@
 - Lire, créer, modifier et supprimer des données avec Eloquent.
 - Remplir la base avec des factories et des seeders.
 
+> [!NOTE]
+> Les exemples de cette leçon nomment les colonnes en anglais (`title`, `body`). Dans les TP, elles sont en français (`titre`, `contenu`, `publie`). Laravel accepte les deux : choisis une langue et garde-la dans tout le projet.
+
 ## La base de données
 
 Le `.env` d'un nouveau projet contient `DB_CONNECTION=sqlite`.

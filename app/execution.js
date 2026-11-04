@@ -68,9 +68,10 @@ export class Apercu {
     window.addEventListener('message', this.ecouter);
   }
 
-  afficher(code) {
+  afficher(code, mocks) {
     if (this.iframe) this.iframe.remove();
     this.code = code;
+    this.mocks = mocks || null;
     this.id = Math.random().toString(36).slice(2);
     this.iframe = creerCadre(this.kind, 'apercu');
     this.cible.appendChild(this.iframe);
@@ -83,7 +84,7 @@ export class Apercu {
     if (m.source !== 'devschool-runner') return;
     if (m.type === 'pret') {
       if (m.erreur) { if (this.onEtat) this.onEtat('erreur', m.erreur); return; }
-      this.iframe.contentWindow.postMessage({ type: 'executer', id: this.id, mode: 'apercu', code: this.code }, '*');
+      this.iframe.contentWindow.postMessage({ type: 'executer', id: this.id, mode: 'apercu', code: this.code, mocks: this.mocks }, '*');
     } else if (m.type === 'log') {
       if (this.onLog) this.onLog(m);
     } else if (m.type === 'hauteur') {

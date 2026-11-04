@@ -50,6 +50,7 @@ function verifierExercice(ex, id, ou) {
   }
   if (ex.depart && ex.depart === ex.solution) erreur(`${ou} : « depart » et « solution » sont identiques`);
   if (ex.indices !== undefined && !Array.isArray(ex.indices)) erreur(`${ou} : « indices » doit être un tableau`);
+  if (ex.apercuFetch !== undefined && (typeof ex.apercuFetch !== 'object' || Array.isArray(ex.apercuFetch))) erreur(`${ou} : « apercuFetch » doit être un objet { url: données }`);
   if (!Array.isArray(ex.tests) || !ex.tests.length) return erreur(`${ou} : « tests » doit être un tableau non vide`);
   ex.tests.forEach((t, i) => {
     if (!t.nom) erreur(`${ou} : test ${i + 1} sans « nom »`);

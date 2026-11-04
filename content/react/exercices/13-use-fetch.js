@@ -86,6 +86,10 @@ export default function Articles({ categorie = 'react' }) {
     'L\'effet dépend de `[url]` : quand la catégorie change, l\'URL change, et le hook recharge.',
     'Pense à `setLoading(true)` au début de l\'effet, pour afficher « Chargement… » à chaque nouvelle URL.',
   ],
+  // Données renvoyées par fetch dans l'aperçu (les tests ont leurs propres données).
+  apercuFetch: {
+    '/api/articles': [{ id: 1, titre: 'Les hooks' }, { id: 2, titre: 'Le contexte' }],
+  },
   tests: [
     {
       nom: 'useFetch renvoie { data, loading, error }',

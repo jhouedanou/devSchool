@@ -13,7 +13,7 @@ Ta progression est enregistrée dans ton navigateur (`localStorage`). Tu peux l'
 
 ## Lancer le site
 
-Il faut Node.js 18 ou plus. Il n'y a rien à installer pour le site.
+Il faut Node.js (18 ou plus suffit pour le site). Il n'y a rien à installer pour le site.
 
 ```bash
 git clone https://github.com/jhouedanou/devSchool.git
@@ -34,10 +34,12 @@ Chaque parcours a son projet dans `tp/` :
 
 | Parcours | Dossier | Outils | Prérequis |
 |----------|---------|--------|-----------|
-| Vue | `tp/vue` | Vite, Vitest, Vue Test Utils, Pinia, Vue Router | Node.js 20+ |
-| Nuxt | `tp/nuxt` | Nuxt 4, @nuxt/test-utils | Node.js 20+ |
-| React | `tp/react` | Vite, Vitest, Testing Library | Node.js 20+ |
-| Laravel | `tp/laravel` | Laravel, PHPUnit | PHP 8.3+, Composer |
+| Vue | `tp/vue` | Vite 8, Vitest 5, Vue Test Utils, Pinia, Vue Router | Node.js 22.12+ |
+| Nuxt | `tp/nuxt` | Nuxt 4.6, @nuxt/test-utils | Node.js 22.22+ |
+| React | `tp/react` | Vite 8, Vitest 5, Testing Library, React 19 | Node.js 22.22+ |
+| Laravel | `tp/laravel` | Laravel 13, PHPUnit 12 | PHP 8.3+, Composer |
+
+Le plus simple : installe **Node.js 24 LTS**, il convient à tous les projets.
 
 Le principe est le même partout :
 

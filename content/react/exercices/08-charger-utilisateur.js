@@ -74,6 +74,10 @@ export default function Profil({ userId = 1 }) {
     '`if (!res.ok) throw new Error(\'Erreur \' + res.status);` envoie vers le `catch`.',
     'Écris `let ignore = false;` au début de l\'effet, `return () => { ignore = true; };` à la fin, et n\'appelle les `set…` que si `!ignore`.',
   ],
+  // Données renvoyées par fetch dans l'aperçu (les tests ont leurs propres données).
+  apercuFetch: {
+    '/api/users/': { nom: 'Ada Lovelace', email: 'ada@exemple.fr' },
+  },
   tests: [
     {
       nom: 'Appelle fetch avec /api/users/1',

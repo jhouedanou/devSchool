@@ -67,6 +67,10 @@ useSeoMeta({
     'Construis l\'URL avec une chaîne modèle : `` `/api/produits/${route.params.id}` ``.',
     '`useSeoMeta` accepte des valeurs réactives : passe directement le `computed` `titre`.',
   ],
+  // Données renvoyées par fetch dans l'aperçu (les tests ont leurs propres données).
+  apercuFetch: {
+    '/api/produits/': { id: 7, nom: 'Vélo de ville', description: 'Un vélo léger.', prix: 450 },
+  },
   tests: [
     {
       nom: 'Charge le produit de l\'URL',

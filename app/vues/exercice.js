@@ -156,7 +156,7 @@ export async function vueExercice(main, p, id) {
   const rafraichirApercu = () => {
     if (!apercu) return;
     viderConsole();
-    apercu.afficher(editeur.getValue());
+    apercu.afficher(editeur.getValue(), ex.apercuFetch);
   };
   const apercuDiffere = debounce(rafraichirApercu, 1200);
 

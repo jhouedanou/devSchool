@@ -1020,7 +1020,9 @@
     });
   }
 
-  function apercu(compile) {
+  function apercu(compile, mocks) {
+    // Données simulées pour l'aperçu (champ « apercuFetch » de l'exercice).
+    if (mocks && typeof mocks === 'object') mockFetch(mocks);
     var exportsModule = executerModule(compile);
     var C = exportsModule && exportsModule.default;
     if (KIND === 'js') {
@@ -1050,7 +1052,7 @@
           return { resultats: resultats, logs: journal.slice() };
         });
       }
-      return apercu(compile).then(function () {
+      return apercu(compile, message.mocks).then(function () {
         signalerHauteur();
         return { ok: true, logs: journal.slice() };
       }, function (e) {

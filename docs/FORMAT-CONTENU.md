@@ -134,6 +134,7 @@ export default {
   depart: `…code de départ…`,            // doit compiler et faire échouer au moins un test
   solution: `…solution…`,                // doit passer tous les tests
   indices: ['Premier indice', 'Deuxième indice'],
+  apercuFetch: { '/api/users': [{ id: 1, nom: 'Ada' }] }, // facultatif : réponses de fetch dans l'aperçu
   tests: [
     {
       nom: 'Affiche 0 au départ',

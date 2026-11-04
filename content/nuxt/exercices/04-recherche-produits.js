@@ -55,6 +55,10 @@ const { data: produits } = await useFetch('/api/produits', {
     '`transform` reçoit la réponse brute et renvoie ce que tu veux garder dans `data`.',
     '`default` est une fonction : `default: () => []`.',
   ],
+  // Données renvoyées par fetch dans l'aperçu (les tests ont leurs propres données).
+  apercuFetch: {
+    '/api/produits': { total: 3, produits: [{ id: 1, nom: 'Vélo' }, { id: 2, nom: 'Casque' }, { id: 3, nom: 'Gourde' }] },
+  },
   tests: [
     {
       nom: 'Affiche les produits (grâce à transform)',

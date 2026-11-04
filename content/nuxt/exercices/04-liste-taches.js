@@ -78,6 +78,13 @@ async function ajouter() {
     '`const { data: taches, status, error, refresh } = await useFetch(\'/api/taches\')`',
     '`$fetch` renvoie une promesse : écris `await $fetch(…)` avant de recharger la liste.',
   ],
+  // Données renvoyées par fetch dans l'aperçu (les tests ont leurs propres données).
+  apercuFetch: {
+    '/api/taches': [
+      { id: 1, titre: 'Lire la doc', faite: false },
+      { id: 2, titre: 'Coder', faite: true },
+    ],
+  },
   tests: [
     {
       nom: 'Affiche les tâches reçues de /api/taches',
