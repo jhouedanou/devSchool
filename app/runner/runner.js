@@ -203,7 +203,10 @@
       var u = String(url);
       var query = options.query || options.params;
       if (query) {
-        var qs = new URLSearchParams(V.toRaw(V.unref(query))).toString();
+        var brut = V.toValue(query) || {};
+        var propre = {};
+        Object.keys(brut).forEach(function (k) { var v = V.toValue(brut[k]); if (v !== undefined && v !== null) propre[k] = v; });
+        var qs = new URLSearchParams(propre).toString();
         if (qs) u += (u.indexOf('?') >= 0 ? '&' : '?') + qs;
       }
       var corps = options.body;
@@ -244,7 +247,13 @@
         return Promise.resolve()
           .then(executer)
           .then(function (r) {
-            data.value = options.transform ? options.transform(r) : r;
+            if (options.transform) r = options.transform(r);
+            if (options.pick && r && typeof r === 'object') {
+              var garde = {};
+              options.pick.forEach(function (k) { garde[k] = r[k]; });
+              r = garde;
+            }
+            data.value = r;
             error.value = undefined;
             status.value = 'success';
           })
@@ -269,16 +278,39 @@
       var lireUrl = function () { return typeof url === 'function' ? url() : V.unref(url); };
       var sources = [];
       if (typeof url === 'function' || V.isRef(url)) sources.push(lireUrl);
-      if (options.query && (V.isRef(options.query) || V.isReactive(options.query))) sources.push(function () { return JSON.stringify(V.unref(options.query)); });
+      // Lit la query en déballant les refs, getters et computed, à tous les niveaux utiles.
+      var lireQuery = function () {
+        var q = V.toValue(options.query);
+        if (!q || typeof q !== 'object') return q;
+        var r = {};
+        Object.keys(q).forEach(function (k) {
+          var v = V.toValue(q[k]);
+          if (v !== undefined && v !== null) r[k] = v;
+        });
+        return r;
+      };
+      if (options.query) sources.push(function () { return JSON.stringify(lireQuery()); });
       var opts = Object.assign({}, options, { watch: options.watch === false ? [] : sources.concat(options.watch || []) });
       return creerDonneesAsync(function () {
-        return $fetch(lireUrl(), Object.assign({}, options, { query: V.unref(options.query) }));
+        return $fetch(lireUrl(), Object.assign({}, options, { query: lireQuery() }));
       }, opts);
     }
 
     function useAsyncData(cle, executer, options) {
       if (typeof cle === 'function') { options = executer; executer = cle; }
-      return creerDonneesAsync(executer, options);
+      return creerDonneesAsync(function () {
+        var controleur = typeof AbortController !== 'undefined' ? new AbortController() : null;
+        return executer(shims.useNuxtApp(), { signal: controleur ? controleur.signal : undefined });
+      }, options);
+    }
+
+    function suivreTitre(objet) {
+      if (!objet) return;
+      V.watchEffect(function () {
+        var source = V.toValue(objet);
+        var t = source && V.toValue(source.title);
+        if (t) { nuxt.head.title = t; document.title = t; }
+      });
     }
 
     var shims = {
@@ -304,8 +336,8 @@
       definePageMeta: function () {},
       defineNuxtRouteMiddleware: function (fn) { return fn; },
       defineNuxtPlugin: function (fn) { return fn; },
-      useHead: function (h) { var t = h && V.unref(h.title); if (t) { nuxt.head.title = t; document.title = t; } },
-      useSeoMeta: function (m) { var t = m && V.unref(m.title); if (t) { nuxt.head.title = t; document.title = t; } },
+      useHead: function (h) { suivreTitre(h); },
+      useSeoMeta: function (m) { suivreTitre(m); },
       useRuntimeConfig: function () { return nuxt.config; },
       useNuxtApp: function () { return { $fetch: $fetch }; },
       useCookie: function (nom, options) {
@@ -313,10 +345,11 @@
         return nuxt.cookies[nom];
       },
       createError: function (o) {
-        o = typeof o === 'string' ? { statusMessage: o } : (o || {});
-        var e = new Error(o.statusMessage || o.message || 'Erreur');
-        e.statusCode = o.statusCode || 500;
-        e.statusMessage = o.statusMessage;
+        o = typeof o === 'string' ? { statusText: o } : (o || {});
+        var texte = o.statusText || o.statusMessage;
+        var e = new Error(texte || o.message || 'Erreur');
+        e.statusCode = e.status = o.status || o.statusCode || 500;
+        e.statusMessage = e.statusText = texte;
         e.data = o.data;
         return e;
       },
@@ -346,6 +379,10 @@
 
   function composantsNuxt(app) {
     var V = window.Vue;
+    // Dans Nuxt, les auto-imports marchent aussi dans le template.
+    Object.keys(window.__nuxtShims || {}).forEach(function (n) { app.config.globalProperties[n] = window.__nuxtShims[n]; });
+    app.config.globalProperties.$route = nuxt.route;
+    app.config.globalProperties.$router = window.__nuxtShims.useRouter();
     app.component('NuxtLink', {
       name: 'NuxtLink',
       props: { to: [String, Object], href: String },

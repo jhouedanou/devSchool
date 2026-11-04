@@ -5,6 +5,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\ConnexionController;
 use App\Http\Controllers\MesArticlesController;
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 
 // TP 01 : pages simples avec des routes nommées.
@@ -12,9 +13,7 @@ Route::view('/', 'accueil')->name('accueil');
 
 Route::view('/a-propos', 'a-propos')->name('a-propos');
 
-Route::get('/bonjour/{nom}', function (string $nom) {
-    return view('bonjour', ['nom' => $nom]);
-})->name('bonjour');
+Route::get('/bonjour/{nom}', [PageController::class, 'bonjour'])->name('bonjour');
 
 // TP 02 : articles publics.
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');

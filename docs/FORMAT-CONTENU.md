@@ -153,7 +153,7 @@ export default {
 |---------|---------------|---------------|
 | `js`    | un module JS : `export function …` | aucune |
 | `vue`   | un fichier `.vue` complet (`<script setup>`, `<template>`, `<style scoped>`) ; `import { ref } from 'vue'` | Vue 3.5 (pas de Pinia ni Router) |
-| `nuxt`  | un fichier `.vue` façon Nuxt : **auto-imports** (`ref`, `computed`, `useState`, `useFetch`, `$fetch`, `useRoute`, `navigateTo`, `useHead`…) sans import, `<NuxtLink>` disponible, `lang="ts"` accepté, `await useFetch()` en haut du script accepté | Vue 3.5 + simulation de Nuxt |
+| `nuxt`  | un fichier `.vue` façon Nuxt : **auto-imports** (`ref`, `computed`, `useState`, `useFetch`, `useAsyncData`, `$fetch`, `useRoute`, `navigateTo`, `useHead`, `useSeoMeta`, `createError`…) sans import, aussi dans le template (`$route`, `navigateTo`), `<NuxtLink>` disponible, `lang="ts"` accepté, `await useFetch()` en haut du script accepté ; `query` accepte des refs, `pick` et `transform` marchent | Vue 3.5 + simulation de Nuxt (pas de serveur, pas de plugins) |
 | `react` | un module JSX : `import { useState } from 'react'` + `export default function App() {}` | **React 18.3** (pas de `use`, `useActionState`, `useOptimistic` : garde ces sujets pour les TP locaux en React 19) |
 
 ### Règles importantes pour les tests

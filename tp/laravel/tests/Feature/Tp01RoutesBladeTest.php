@@ -47,6 +47,14 @@ class Tp01RoutesBladeTest extends TestCase
         $this->assertSame(url('/bonjour/Alice'), route('bonjour', ['nom' => 'Alice']));
     }
 
+    public function test_la_page_bonjour_passe_par_page_controller(): void
+    {
+        $route = app('router')->getRoutes()->getByName('bonjour');
+
+        $this->assertNotNull($route, 'La route « bonjour » n\'existe pas.');
+        $this->assertSame('App\Http\Controllers\PageController@bonjour', $route->getActionName());
+    }
+
     public function test_le_layout_est_un_composant_blade_avec_un_titre_et_un_slot(): void
     {
         $this->assertFileExists(

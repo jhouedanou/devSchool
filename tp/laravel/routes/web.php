@@ -12,7 +12,7 @@ Route::get('/', function () {
 
 // TODO TP 01 : ajoute la page « À propos » (URL « /a-propos », nom « a-propos »).
 
-// TODO TP 01 : ajoute la page « Bonjour » (URL « /bonjour/{nom} », nom « bonjour »).
+// TODO TP 01 : ajoute la page « Bonjour » (URL « /bonjour/{nom} », nom « bonjour »), via PageController@bonjour.
 
 // TODO TP 02 : liste des articles publiés (« /articles ») et page d'un article (« /articles/{article:slug} »).
 
