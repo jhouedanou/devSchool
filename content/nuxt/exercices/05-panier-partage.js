@@ -83,13 +83,13 @@ function vider() {
 </template>
 `,
   indices: [
-    'useState renvoie une ref : lis et modifie panier.value dans le script.',
-    'Pour le total : panier.value.reduce((somme, a) => somme + a.prix, 0).',
+    '`useState` renvoie une ref : lis et modifie `panier.value` dans le script.',
+    'Pour le total : `panier.value.reduce((somme, a) => somme + a.prix, 0)`.',
   ],
   tests: [
     {
       nom: 'Le panier est un état useState avec la clé « panier »',
-      aide: 'Écris const panier = useState(\'panier\', () => []).',
+      aide: 'Écris `const panier = useState(\'panier\', () => [])`.',
       run: async (t) => {
         await t.mount();
         t.expect(t.nuxt.etats.panier).toBeDefined();
@@ -108,7 +108,7 @@ function vider() {
     },
     {
       nom: 'Le panier est partagé avec les autres composants',
-      aide: 'Un autre composant a déjà rempli useState(\'panier\'). Ta page doit lire ce même état.',
+      aide: 'Un autre composant a déjà rempli `useState(\'panier\')`. Ta page doit lire ce même état.',
       run: async (t) => {
         t.window.useState('panier', () => [{ id: 9, nom: 'Gâteau', prix: 5 }]);
         const w = await t.mount();

@@ -64,13 +64,13 @@ useSeoMeta({
 </template>
 `,
   indices: [
-    'Construis l\'URL avec une chaîne modèle : `/api/produits/${route.params.id}`.',
-    'useSeoMeta accepte des valeurs réactives : passe directement le computed titre.',
+    'Construis l\'URL avec une chaîne modèle : `` `/api/produits/${route.params.id}` ``.',
+    '`useSeoMeta` accepte des valeurs réactives : passe directement le `computed` `titre`.',
   ],
   tests: [
     {
       nom: 'Charge le produit de l\'URL',
-      aide: 'Utilise route.params.id dans l\'URL de useFetch.',
+      aide: 'Utilise `route.params.id` dans l\'URL de `useFetch`.',
       run: async (t) => {
         t.nuxt.route.params.id = '7';
         const appels = t.mockFetch({
@@ -84,7 +84,7 @@ useSeoMeta({
     },
     {
       nom: 'Le titre de la page contient le nom du produit',
-      aide: 'Appelle useSeoMeta({ title: titre, … }) avec « Nom | Boutique ».',
+      aide: 'Appelle `useSeoMeta({ title: titre, … })` avec « Nom | Boutique ».',
       run: async (t) => {
         t.nuxt.route.params.id = '7';
         t.mockFetch({
@@ -96,7 +96,7 @@ useSeoMeta({
     },
     {
       nom: 'Titre de secours si le produit n\'existe pas',
-      aide: 'Si produit.value est vide (API en 404), le titre vaut « Produit introuvable | Boutique ».',
+      aide: 'Si `produit.value` est vide (API en 404), le titre vaut « Produit introuvable | Boutique ».',
       run: async (t) => {
         t.nuxt.route.params.id = '999';
         t.mockFetch({});

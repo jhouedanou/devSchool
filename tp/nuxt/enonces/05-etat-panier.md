@@ -26,7 +26,7 @@ Revois si besoin [la leçon sur l'état](#/nuxt/lecon/05-etat) et [la leçon sur
 
 1. Crée `app/composables/usePanier.ts` et exporte la fonction `usePanier()`.
 2. Dans `usePanier()`, crée l'état : `const lignes = useState<LignePanier[]>('panier', () => [])`. Une ligne a la forme `{ id, nom, prix, quantite }`.
-3. Écris `ajouter(produit)` :
+3. Écris `ajouter(produit: Produit)` (type importé avec `import type { Produit } from '~/utils/produits'`) :
    - si le produit est déjà dans le panier, augmente sa `quantite` de 1 ;
    - sinon, ajoute une ligne avec `quantite: 1`.
 4. Écris `retirer(id)` : elle enlève toute la ligne de ce produit.
@@ -66,4 +66,4 @@ npm test -- 05-etat-panier
 
 - Crée une page `/panier` qui liste les lignes, avec un bouton « Retirer » sur chacune.
 - Ajoute une fonction `vider()` au composable.
-- Garde le panier après un rechargement de la page avec `useCookie('panier')`.
+- Ajoute `diminuer(id)` : elle enlève une seule unité, et la ligne disparaît à 0.

@@ -71,14 +71,14 @@ export default defineNuxtRouteMiddleware((to, from) => {
 })
 `,
   indices: [
-    'Teste le chemin avec to.path.startsWith(\'/compte\').',
-    'N\'oublie pas return devant navigateTo() et abortNavigation() : c\'est la valeur renvoyée qui change la navigation.',
-    'Ne redirige jamais un visiteur qui va déjà sur /connexion : tu créerais une boucle infinie.',
+    'Teste le chemin avec `to.path.startsWith(\'/compte\')`.',
+    'N\'oublie pas `return` devant `navigateTo()` et `abortNavigation()` : c\'est la valeur renvoyée qui change la navigation.',
+    'Ne redirige jamais un visiteur qui va déjà sur `/connexion` : tu créerais une boucle infinie.',
   ],
   tests: [
     {
       nom: 'Un visiteur est redirigé de /compte vers /connexion',
-      aide: 'Si utilisateur.value est null et que la page est protégée : return navigateTo(\'/connexion\').',
+      aide: 'Si `utilisateur.value` est `null` et que la page est protégée : `return navigateTo(\'/connexion\')`.',
       run: async (t) => {
         const resultat = await t.module.default({ path: '/compte' }, { path: '/' });
         t.expect(resultat).toEqual({ redirection: '/connexion' });
@@ -93,7 +93,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
     },
     {
       nom: 'Pages publiques : pas de redirection (ni de boucle)',
-      aide: 'Ne renvoie rien pour / et /connexion quand l\'utilisateur n\'est pas connecté.',
+      aide: 'Ne renvoie rien pour `/` et `/connexion` quand l\'utilisateur n\'est pas connecté.',
       run: async (t) => {
         t.expect(await t.module.default({ path: '/' }, { path: '/' })).toBeUndefined();
         t.expect(await t.module.default({ path: '/connexion' }, { path: '/compte' })).toBeUndefined();
@@ -101,7 +101,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
     },
     {
       nom: 'Un membre est bloqué sur /admin (erreur 403)',
-      aide: 'return abortNavigation(createError({ status: 403, statusText: \'Accès refusé\' })).',
+      aide: '`return abortNavigation(createError({ status: 403, statusText: \'Accès refusé\' }))`',
       run: async (t) => {
         t.module.connecter({ nom: 'Léa', role: 'membre' });
         const resultat = await t.module.default({ path: '/admin' }, { path: '/' });

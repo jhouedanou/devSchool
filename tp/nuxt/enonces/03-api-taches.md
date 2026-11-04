@@ -52,7 +52,7 @@ Revois si besoin [la leçon sur le serveur](#/nuxt/lecon/06-serveur).
 7. Teste dans le navigateur : `http://localhost:3000/api/taches?fait=false`.
 
 > [!TIP]
-> Mets le texte de l'erreur dans `message`, pas dans `statusMessage` : `statusMessage` ne supporte pas les accents.
+> Mets le texte de l'erreur dans `message`, pas dans `statusMessage`. `statusMessage` va dans la ligne de statut HTTP, qui n'accepte pas les accents.
 
 > [!NOTE]
 > Les données sont en mémoire : elles reviennent à l'état de départ à chaque redémarrage du serveur.

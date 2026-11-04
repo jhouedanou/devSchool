@@ -51,14 +51,14 @@ function retour() {
 </template>
 `,
   indices: [
-    'route.params.id est une chaîne de caractères : "3" + 1 donne "31". Convertis avec Number().',
-    'Pour un lien dynamique, utilise :to avec une chaîne modèle : :to="`/produits/${id + 1}`".',
-    'navigateTo() est auto-importé : appelle-le directement dans retour().',
+    '`route.params.id` est une chaîne : `"3" + 1` donne `"31"`. Convertis avec `Number()`.',
+    'Pour un lien dynamique, lie `to` avec une chaîne modèle : `` <NuxtLink :to="`/produits/${id + 1}`"> ``.',
+    '`navigateTo()` est auto-importé : appelle-le directement dans `retour()`.',
   ],
   tests: [
     {
       nom: 'Affiche le numéro du produit de l\'URL',
-      aide: 'Lis route.params.id avec useRoute().',
+      aide: 'Lis `route.params.id` avec `useRoute()`.',
       run: async (t) => {
         t.nuxt.route.params.id = '3';
         const w = await t.mount();
@@ -67,7 +67,7 @@ function retour() {
     },
     {
       nom: 'Le lien « suivant » pointe vers /produits/4',
-      aide: 'Convertis l\'id en nombre avant de faire + 1, sinon tu obtiens /produits/31.',
+      aide: 'Convertis l\'id en nombre avant de faire `+ 1`, sinon tu obtiens `/produits/31`.',
       run: async (t) => {
         t.nuxt.route.params.id = '3';
         const w = await t.mount();
@@ -76,7 +76,7 @@ function retour() {
     },
     {
       nom: 'Le lien utilise <NuxtLink> (navigation sans rechargement)',
-      aide: 'Remplace la balise <a> par <NuxtLink :to="…">.',
+      aide: 'Remplace la balise `<a>` par `<NuxtLink :to="…">`.',
       run: async (t) => {
         t.nuxt.route.params.id = '7';
         const w = await t.mount();
@@ -93,7 +93,7 @@ function retour() {
     },
     {
       nom: 'Le bouton « Retour » navigue vers /produits',
-      aide: 'Dans retour(), appelle navigateTo(\'/produits\').',
+      aide: 'Dans `retour()`, appelle `navigateTo(\'/produits\')`.',
       run: async (t) => {
         t.nuxt.route.params.id = '3';
         const w = await t.mount();

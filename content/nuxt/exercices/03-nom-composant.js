@@ -52,9 +52,9 @@ export function nomComposant(chemin) {
 }
 `,
   indices: [
-    'Découpe le chemin avec split(\'/\'), puis retire le dernier morceau avec pop() : c\'est le fichier.',
-    'Pour enPascal : split(\'-\'), puis mets la première lettre de chaque mot en majuscule.',
-    'Règle 5 : teste d\'abord tous les dossiers collés, puis sans le premier, etc. Utilise startsWith().',
+    'Découpe le chemin avec `split(\'/\')`, puis retire le dernier morceau avec `pop()` : c\'est le fichier.',
+    'Pour `enPascal` : `split(\'-\')`, puis mets la première lettre de chaque mot en majuscule.',
+    'Règle 5 : teste d\'abord tous les dossiers collés, puis sans le premier, etc. Utilise `startsWith()`.',
   ],
   tests: [
     {

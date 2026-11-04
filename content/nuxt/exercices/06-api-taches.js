@@ -103,9 +103,9 @@ export const lireTache = defineEventHandler((event) => {
 })
 `,
   indices: [
-    'Dans validerTache, vérifie typeof corps?.titre === \'string\' avant d\'appeler trim().',
-    'readValidatedBody renvoie ce que renvoie validerTache : const { titre } = await readValidatedBody(event, validerTache).',
-    'getRouterParam renvoie "1" (une chaîne) : compare avec Number(…).',
+    'Dans `validerTache`, vérifie `typeof corps?.titre === \'string\'` avant d\'appeler `trim()`.',
+    '`readValidatedBody` renvoie ce que renvoie `validerTache` : `const { titre } = await readValidatedBody(event, validerTache)`.',
+    '`getRouterParam` renvoie `"1"` (une chaîne) : compare avec `Number(…)`.',
   ],
   tests: [
     {
@@ -116,7 +116,7 @@ export const lireTache = defineEventHandler((event) => {
     },
     {
       nom: 'validerTache refuse un titre vide ou absent',
-      aide: 'Lève une erreur avec throw new Error(…) quand le titre est vide après trim().',
+      aide: 'Lève une erreur avec `throw new Error(…)` quand le titre est vide après `trim()`.',
       run: async (t) => {
         t.expect(() => t.module.validerTache({ titre: '   ' })).toThrow();
         t.expect(() => t.module.validerTache({})).toThrow();
@@ -134,7 +134,7 @@ export const lireTache = defineEventHandler((event) => {
     },
     {
       nom: 'creerTache répond 400 si le corps est invalide',
-      aide: 'Utilise readValidatedBody(event, validerTache) : il transforme l\'erreur de validation en erreur 400.',
+      aide: 'Utilise `readValidatedBody(event, validerTache)` : il transforme l\'erreur de validation en erreur 400.',
       run: async (t) => {
         let erreur;
         try {
@@ -148,7 +148,7 @@ export const lireTache = defineEventHandler((event) => {
     },
     {
       nom: 'lireTache renvoie la tâche demandée',
-      aide: 'Le paramètre de route est une chaîne : convertis-le avec Number().',
+      aide: 'Le paramètre de route est une chaîne : convertis-le avec `Number()`.',
       run: async (t) => {
         const tache = await t.module.lireTache({ params: { id: '1' } });
         t.expect(tache.titre).toBe('Lire la doc de Nitro');

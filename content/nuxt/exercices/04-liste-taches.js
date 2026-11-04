@@ -75,13 +75,13 @@ async function ajouter() {
 </template>
 `,
   indices: [
-    'const { data: taches, status, error, refresh } = await useFetch(\'/api/taches\')',
-    '$fetch renvoie une promesse : écris await $fetch(…) avant de recharger la liste.',
+    '`const { data: taches, status, error, refresh } = await useFetch(\'/api/taches\')`',
+    '`$fetch` renvoie une promesse : écris `await $fetch(…)` avant de recharger la liste.',
   ],
   tests: [
     {
       nom: 'Affiche les tâches reçues de /api/taches',
-      aide: 'Utilise useFetch(\'/api/taches\') et renomme data en taches.',
+      aide: 'Utilise `useFetch(\'/api/taches\')` et renomme `data` en `taches`.',
       run: async (t) => {
         const appels = t.mockFetch({
           '/api/taches': [
@@ -97,7 +97,7 @@ async function ajouter() {
     },
     {
       nom: 'Affiche un message si l\'API renvoie une erreur',
-      aide: 'Récupère error depuis useFetch : il est rempli quand la requête échoue.',
+      aide: 'Récupère `error` depuis `useFetch` : il est rempli quand la requête échoue.',
       run: async (t) => {
         t.mockFetch(() => t.reponse({ message: 'Erreur serveur' }, 500));
         const w = await t.mount();
@@ -106,7 +106,7 @@ async function ajouter() {
     },
     {
       nom: 'Ajouter envoie un POST avec le titre',
-      aide: 'Appelle $fetch(\'/api/taches\', { method: \'POST\', body: { titre: titre.value } }).',
+      aide: 'Appelle `$fetch(\'/api/taches\', { method: \'POST\', body: { titre: titre.value } })`.',
       run: async (t) => {
         const liste = [{ id: 1, titre: 'Lire la doc', faite: false }];
         const appels = t.mockFetch((url, init) => {
@@ -130,7 +130,7 @@ async function ajouter() {
     },
     {
       nom: 'La liste est rechargée après l\'ajout',
-      aide: 'Après le POST, appelle refresh() : useFetch refait la requête GET.',
+      aide: 'Après le POST, appelle `refresh()` : `useFetch` refait la requête GET.',
       run: async (t) => {
         const liste = [{ id: 1, titre: 'Lire la doc', faite: false }];
         const appels = t.mockFetch((url, init) => {

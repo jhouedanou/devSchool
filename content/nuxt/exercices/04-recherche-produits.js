@@ -51,14 +51,14 @@ const { data: produits } = await useFetch('/api/produits', {
 </template>
 `,
   indices: [
-    'Les options sont le 2e argument : useFetch(\'/api/produits\', { query, transform, default }).',
-    'transform reçoit la réponse brute et renvoie ce que tu veux garder dans data.',
-    'default est une fonction : default: () => [].',
+    'Les options sont le 2e argument : `useFetch(\'/api/produits\', { query, transform, default })`.',
+    '`transform` reçoit la réponse brute et renvoie ce que tu veux garder dans `data`.',
+    '`default` est une fonction : `default: () => []`.',
   ],
   tests: [
     {
       nom: 'Affiche les produits (grâce à transform)',
-      aide: 'L\'API renvoie { total, produits }. Avec transform: (r) => r.produits, data devient le tableau.',
+      aide: 'L\'API renvoie `{ total, produits }`. Avec `transform: (r) => r.produits`, `data` devient le tableau.',
       run: async (t) => {
         t.mockFetch(() => ({
           total: 3,
@@ -71,7 +71,7 @@ const { data: produits } = await useFetch('/api/produits', {
     },
     {
       nom: 'Envoie la recherche dans ?q=',
-      aide: 'Ajoute query: computed(() => ({ q: recherche.value })).',
+      aide: 'Ajoute `query: computed(() => ({ q: recherche.value }))`.',
       run: async (t) => {
         const appels = t.mockFetch(() => ({ total: 0, produits: [] }));
         await t.mount();
@@ -82,7 +82,7 @@ const { data: produits } = await useFetch('/api/produits', {
     },
     {
       nom: 'Taper dans le champ relance la requête',
-      aide: 'La query doit être réactive (computed) pour que Nuxt la surveille.',
+      aide: 'La `query` doit être réactive (`computed`) pour que Nuxt la surveille.',
       run: async (t) => {
         const tous = [{ id: 1, nom: 'Vélo' }, { id: 2, nom: 'Casque vélo' }, { id: 3, nom: 'Gourde' }];
         const appels = t.mockFetch((url) => {
@@ -101,7 +101,7 @@ const { data: produits } = await useFetch('/api/produits', {
     },
     {
       nom: 'Valeur par défaut si l\'API échoue',
-      aide: 'Ajoute default: () => [] : data vaut alors [] au lieu de undefined.',
+      aide: 'Ajoute `default: () => []` : `data` vaut alors `[]` au lieu de `undefined`.',
       run: async (t) => {
         t.mockFetch(() => t.reponse({ message: 'Erreur serveur' }, 500));
         const w = await t.mount();
