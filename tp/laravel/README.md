@@ -1,58 +1,99 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# TP Laravel : un blog, TP après TP
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Ce dossier est une vraie application Laravel 13.
+Tu la complètes TP après TP pour construire un petit blog : pages Blade, articles, administration, catégories, API JSON, connexion.
+Chaque TP a son énoncé et ses tests automatiques (PHPUnit). Ton but : faire passer les tests.
 
-## About Laravel
+## Prérequis
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **PHP 8.3 ou plus** : `php -v`
+- **Composer 2** : `composer -V`
+- Les extensions PHP demandées par Laravel : `ctype`, `curl`, `dom`, `fileinfo`, `filter`, `mbstring`, `openssl`, `pdo`, `tokenizer`, `xml`.
+- Pour la base de données : **`pdo_sqlite`** (SQLite, aucun serveur à installer).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Vérifie les extensions avec `php -m`. Sous Windows, active-les dans `php.ini` (lignes `extension=…`).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Pas besoin de Node.js : les pages utilisent une simple feuille de style, `public/css/blog.css`, sans Vite.
 
-## Learning Laravel
+## Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+Depuis ce dossier (`tp/laravel`) :
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+composer install
+cp .env.example .env
+php artisan key:generate
+touch database/database.sqlite
+php artisan migrate
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Sous Windows (PowerShell), remplace `cp` par `copy` et `touch database/database.sqlite` par `New-Item database/database.sqlite`.
 
-## Contributing
+Puis lance le site :
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+php artisan serve
+```
 
-## Code of Conduct
+Ouvre http://localhost:8000.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+> Les tests n'utilisent pas `database/database.sqlite` : ils travaillent dans une base SQLite en mémoire, vidée à chaque test (voir `phpunit.xml`). Ils ont quand même besoin du fichier `.env` et de sa clé `APP_KEY`.
 
-## Security Vulnerabilities
+## Les TP
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| TP | Titre | Niveau | Énoncé | Tests |
+|----|-------|--------|--------|-------|
+| 01 | Routes et vues Blade | 1 | `enonces/01-routes-blade.md` | `tests/Feature/Tp01RoutesBladeTest.php` |
+| 02 | Modèle Article et liste | 1 | `enonces/02-articles-eloquent.md` | `tests/Feature/Tp02ArticlesEloquentTest.php` |
+| 03 | CRUD des articles avec validation | 2 | `enonces/03-crud-articles.md` | `tests/Feature/Tp03CrudArticlesTest.php` |
+| 04 | Catégories et relations | 2 | `enonces/04-categories-relations.md` | `tests/Feature/Tp04CategoriesRelationsTest.php` |
+| 05 | API REST JSON | 2 | `enonces/05-api-rest.md` | `tests/Feature/Tp05ApiRestTest.php` |
+| 06 | Authentification et Policy | 3 | `enonces/06-auth-policy.md` | `tests/Feature/Tp06AuthPolicyTest.php` |
 
-## License
+Fais-les **dans l'ordre** : chaque TP s'appuie sur le précédent.
+Au départ, tous les tests des TP échouent. C'est normal.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Commandes
+
+```bash
+php artisan test                  # tous les tests
+php artisan test --filter=Tp03    # un seul TP
+php verifier-solutions.php        # vérifie que les solutions passent tous les tests
+```
+
+Autres commandes utiles :
+
+```bash
+php artisan route:list            # toutes les routes, avec leurs noms
+php artisan migrate:fresh --seed  # base vidée, migrations relancées, seeders lancés
+php artisan tinker                # console PHP dans l'application
+```
+
+## Organisation
+
+```
+tp/laravel/
+  README.md                 ce fichier
+  enonces/                  un énoncé par TP (aussi affiché sur le site)
+  tests/Feature/Tp0X…Test.php   les tests de chaque TP
+  solutions/<id>/           la solution de chaque TP, aux mêmes chemins que dans le projet
+  verifier-solutions.php    applique les solutions dans une copie et lance les tests
+  app/, routes/, resources/, database/…   l'application Laravel (squelette officiel)
+```
+
+Les solutions s'empilent : `solutions/03-crud-articles/` contient seulement les fichiers créés ou modifiés au TP 03, dans leur état à la fin du TP 03.
+
+`php verifier-solutions.php` ne touche jamais à ton projet. Il le copie dans un dossier temporaire (sans `vendor/`, qu'il réutilise), applique les solutions 01 à 06 dans l'ordre, puis lance `php artisan test`. Le code de sortie vaut 0 si tout passe.
+Options : `--jusqua=03` (solutions 01 à 03 seulement), `--garder` (garde la copie), et toute option de `php artisan test` (`--filter=Tp03`).
+
+> Le script part de ton dossier tel qu'il est. Si tu as déjà créé tes propres migrations, elles s'ajoutent à celles des solutions et peuvent entrer en conflit (table créée deux fois). Pour vérifier les solutions seules, lance-le depuis un clone propre du dépôt.
+
+## Conseils
+
+- Lis tout l'énoncé avant de coder. Les URL, noms de routes, noms de champs et textes du tableau sont ceux des tests : respecte-les à la lettre.
+- Lance les tests du TP souvent : `php artisan test --filter=Tp02`. Un test qui échoue affiche la ligne en cause et ce qu'il attendait.
+- Les noms des tests décrivent le comportement attendu : `test_un_article_non_publie_ou_inconnu_renvoie_une_404`.
+- Utilise `php artisan make:…` pour créer les fichiers (modèles, contrôleurs, requêtes, policies) : les chemins et les espaces de noms seront justes.
+- Bloqué ? Compare avec le dossier `solutions/` du TP, fichier par fichier. Essaie d'abord seul : c'est en cherchant qu'on retient.
+- Après une modification de `.env` ou de `config/`, lance `php artisan config:clear`.
+- Pour repartir de zéro sur un TP, `git restore` et `git clean` sur les fichiers concernés.

@@ -1,6 +1,7 @@
 <!--
   Point d'entrée de l'application.
   TODO (TP 01) : remplace tout ce contenu par <NuxtLayout> qui contient <NuxtPage />.
+  Les autres fichiers (pages, layout, composants, server/…) sont à créer en suivant les énoncés.
 -->
 <template>
   <div class="conteneur">

@@ -78,9 +78,11 @@ Avec `await`, la suite du `setup` attend les données. Lors d'une navigation dan
 
 ## Les options
 
+Toutes les options sont facultatives. Les plus courantes :
+
 ```ts
 const { data } = await useFetch('/api/produits', {
-  method: 'GET',
+  method: 'GET',               // GET par défaut
   query: { page: 1 },          // → /api/produits?page=1
   headers: { 'X-Version': '2' },
   key: 'liste-produits',       // clé du cache (sinon Nuxt en calcule une)
@@ -88,11 +90,10 @@ const { data } = await useFetch('/api/produits', {
   lazy: false,                 // true : ne bloque pas la navigation
   server: true,                // false : requête seulement dans le navigateur
   immediate: true,             // false : attend un appel à execute()
-  transform: (r) => r,         // modifie la réponse avant de la ranger
-  pick: ['id', 'nom'],         // garde seulement ces champs
-  watch: [],                   // sources qui relancent la requête
 })
 ```
+
+`transform`, `pick` et `watch` sont détaillées plus bas.
 
 ### Une requête réactive
 
