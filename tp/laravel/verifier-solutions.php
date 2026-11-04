@@ -263,6 +263,9 @@ function preparerVendor(string $racine, string $temp, array &$liensCrees): void
     \$copie = dirname(__DIR__);
     \$original = {$original};
 
+    // Sans cela, les tests devinent le dossier du projet à partir de vendor/ : ils prendraient l'original.
+    \$_SERVER['APP_BASE_PATH'] = \$_ENV['APP_BASE_PATH'] = \$copie;
+
     \$espaces = [
         'App\\\\' => 'app',
         'Database\\\\Factories\\\\' => 'database/factories',
