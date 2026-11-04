@@ -8,7 +8,7 @@ export default {
 2. Calcule \`titre\` avec \`computed()\` : \`'Vélo de ville | Boutique'\` si le produit existe, sinon \`'Produit introuvable | Boutique'\`.
 3. Appelle \`useSeoMeta()\` avec \`title\`, \`description\` et \`ogTitle\`.
 
-> Simulation : les tests fournissent la route et l'API. Ils lisent le titre de la page (\`<title>\`).`,
+> Simulation : les tests fournissent la route et l'API, puis lisent le titre de la page (\`<title>\`). La simulation accepte une valeur simple, une \`ref\` ou un \`computed\`, mais pas une fonction (\`title: () => …\`), pourtant valide dans Nuxt : utilise ici le \`computed\` \`titre\`.`,
   depart: `<script setup lang="ts">
 type Produit = { id: number; nom: string; description: string; prix: number }
 
