@@ -13,6 +13,7 @@
         <nav>
             <a href="{{ route('accueil') }}">Accueil</a>
             <a href="{{ route('articles.index') }}">Articles</a>
+            <a href="{{ route('categories.index') }}">Catégories</a>
             <a href="{{ route('a-propos') }}">À propos</a>
             <a href="{{ route('admin.articles.index') }}">Admin</a>
         </nav>

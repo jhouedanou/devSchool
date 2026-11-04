@@ -7,6 +7,7 @@
         <thead>
             <tr>
                 <th>Titre</th>
+                <th>Catégorie</th>
                 <th>Statut</th>
                 <th>Actions</th>
             </tr>
@@ -15,6 +16,7 @@
             @forelse ($articles as $article)
                 <tr>
                     <td>{{ $article->titre }}</td>
+                    <td>{{ $article->categorie?->nom ?? '—' }}</td>
                     <td>{{ $article->publie ? 'Publié' : 'Brouillon' }}</td>
                     <td class="actions">
                         <a href="{{ route('admin.articles.edit', $article) }}">Modifier</a>
@@ -28,7 +30,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="3">Aucun article.</td>
+                    <td colspan="4">Aucun article.</td>
                 </tr>
             @endforelse
         </tbody>

@@ -138,34 +138,43 @@ registerEndpoint('/api/taches', {
 
 ## Simuler un auto-import : `mockNuxtImport`
 
-`mockNuxtImport` remplace une fonction auto-importée (`useRoute`, `useState`, un de tes composables…) dans tout le fichier de test.
+`mockNuxtImport` remplace une fonction auto-importée (un composable de Nuxt ou un des tiens) dans tout le fichier de test. Exemple : un composable `useAujourdhui()` qui renvoie la date du jour, à figer pour le test.
 
 ```ts
-// test/nuxt/MenuCompte.test.ts
+// test/nuxt/BandeauDate.test.ts
 import { expect, it } from 'vitest'
 import { mockNuxtImport, mountSuspended } from '@nuxt/test-utils/runtime'
-import MenuCompte from '~/components/MenuCompte.vue'
+import BandeauDate from '~/components/BandeauDate.vue'
 
-mockNuxtImport('useUtilisateur', () => {
-  return () => ({ value: { nom: 'Ada', role: 'admin' } })
+mockNuxtImport('useAujourdhui', () => {
+  return () => '2026-11-04'
 })
 
-it('affiche le nom de l\'utilisateur', async () => {
-  const wrapper = await mountSuspended(MenuCompte)
-  expect(wrapper.text()).toContain('Ada')
+it('affiche la date du jour', async () => {
+  const wrapper = await mountSuspended(BandeauDate)
+  expect(wrapper.text()).toContain('2026-11-04')
 })
 ```
 
-`mockNuxtImport` est remonté en haut du fichier (comme `vi.mock`) : une seule fois par fonction et par fichier, et sans variable extérieure dans la fabrique. Pour changer le comportement d'un test à l'autre, passe par `vi.hoisted` :
+`mockNuxtImport` est remonté en haut du fichier (comme `vi.mock`). Conséquences : un seul appel par fonction et par fichier, et aucune variable extérieure dans la fabrique. Pour changer le comportement d'un test à l'autre, crée le faux avec `vi.hoisted` :
 
 ```ts
-import { vi } from 'vitest'
+// test/nuxt/MenuCompte.test.ts
+import { expect, it, vi } from 'vitest'
 import { ref } from 'vue'
+import { mockNuxtImport, mountSuspended } from '@nuxt/test-utils/runtime'
+import MenuCompte from '~/components/MenuCompte.vue'
 
 const { useUtilisateurMock } = vi.hoisted(() => ({ useUtilisateurMock: vi.fn() }))
 mockNuxtImport('useUtilisateur', () => useUtilisateurMock)
 
-it('cache le menu admin pour un membre', async () => {
+it('montre le menu admin à un admin', async () => {
+  useUtilisateurMock.mockReturnValue(ref({ nom: 'Ada', role: 'admin' }))
+  const wrapper = await mountSuspended(MenuCompte)
+  expect(wrapper.find('.admin').exists()).toBe(true)
+})
+
+it('cache le menu admin à un membre', async () => {
   useUtilisateurMock.mockReturnValue(ref({ nom: 'Léa', role: 'membre' }))
   const wrapper = await mountSuspended(MenuCompte)
   expect(wrapper.find('.admin').exists()).toBe(false)
@@ -203,6 +212,8 @@ Ici, `$fetch` vient de `@nuxt/test-utils/e2e` : il appelle le serveur de test. P
 Pour cliquer dans un vrai navigateur, active `browser: true` et utilise `createPage` (Playwright) :
 
 ```ts
+import { createPage, setup } from '@nuxt/test-utils/e2e'
+
 await setup({ browser: true })
 
 it('ajoute une tâche', async () => {

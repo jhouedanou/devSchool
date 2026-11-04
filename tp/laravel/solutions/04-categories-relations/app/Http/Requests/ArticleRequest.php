@@ -42,6 +42,7 @@ class ArticleRequest extends FormRequest
             'slug' => ['required_with:titre', Rule::unique('articles', 'slug')->ignore($this->route('article'))],
             'contenu' => ['required', 'string', 'min:10'],
             'publie' => ['boolean'],
+            'categorie_id' => ['nullable', 'integer', 'exists:categories,id'],
         ];
     }
 
@@ -60,6 +61,7 @@ class ArticleRequest extends FormRequest
             'slug.unique' => 'Un article avec ce titre existe déjà.',
             'contenu.required' => 'Le contenu est obligatoire.',
             'contenu.min' => 'Le contenu doit contenir au moins 10 caractères.',
+            'categorie_id.exists' => 'Cette catégorie n\'existe pas.',
         ];
     }
 }

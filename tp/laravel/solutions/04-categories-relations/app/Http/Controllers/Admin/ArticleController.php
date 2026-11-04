@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
+use App\Models\Categorie;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -15,7 +16,7 @@ class ArticleController extends Controller
      */
     public function index(): View
     {
-        $articles = Article::latest()->get();
+        $articles = Article::with('categorie')->latest()->get();
 
         return view('admin.articles.index', ['articles' => $articles]);
     }
@@ -25,7 +26,9 @@ class ArticleController extends Controller
      */
     public function create(): View
     {
-        return view('admin.articles.create');
+        return view('admin.articles.create', [
+            'categories' => Categorie::orderBy('nom')->get(),
+        ]);
     }
 
     /**
@@ -43,7 +46,10 @@ class ArticleController extends Controller
      */
     public function edit(Article $article): View
     {
-        return view('admin.articles.edit', ['article' => $article]);
+        return view('admin.articles.edit', [
+            'article' => $article,
+            'categories' => Categorie::orderBy('nom')->get(),
+        ]);
     }
 
     /**

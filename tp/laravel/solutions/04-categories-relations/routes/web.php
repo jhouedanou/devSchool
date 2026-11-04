@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\CategorieController;
 use Illuminate\Support\Facades\Route;
 
 // TP 01 : pages simples avec des routes nommées.
@@ -21,3 +22,7 @@ Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('articles', AdminArticleController::class)->except('show');
 });
+
+// TP 04 : catégories.
+Route::get('/categories', [CategorieController::class, 'index'])->name('categories.index');
+Route::get('/categories/{categorie:slug}', [CategorieController::class, 'show'])->name('categories.show');
