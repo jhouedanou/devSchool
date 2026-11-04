@@ -1,0 +1,28 @@
+{
+  "name": "devschool-tp-vue",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Travaux pratiques Vue 3 de devSchool : exercices, tests Vitest et solutions.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:solutions": "vite --mode solution",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "solutions": "vitest run --mode solution"
+  },
+  "dependencies": {
+    "pinia": "^4.1.0",
+    "vue": "^3.5.44",
+    "vue-router": "^5.4.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.10",
+    "@vue/test-utils": "^2.5.1",
+    "happy-dom": "^21.0.4",
+    "vite": "^8.3.5",
+    "vitest": "^5.1.0"
+  }
+}

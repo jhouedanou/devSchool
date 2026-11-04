@@ -1,0 +1,286 @@
+:root {
+  --fond: #f6f7f9;
+  --surface: #ffffff;
+  --texte: #1f2328;
+  --discret: #5b6470;
+  --bordure: #d8dde3;
+  --accent: #087ea4; /* bleu React */
+  --erreur: #c62828;
+  --succes: #2e7d32;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+  color: var(--texte);
+  background: var(--fond);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--fond);
+}
+
+.galerie {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    'entete entete'
+    'menu contenu';
+  min-height: 100vh;
+}
+
+.entete {
+  grid-area: entete;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  background: #20232a;
+  color: #fff;
+}
+
+.entete h1 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.badge {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  font-size: 0.8rem;
+}
+
+.badge-solution {
+  background: var(--succes);
+}
+
+nav {
+  grid-area: menu;
+  border-right: 1px solid var(--bordure);
+  background: var(--surface);
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+}
+
+nav a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: inherit;
+  text-decoration: none;
+}
+
+nav a:hover {
+  background: var(--fond);
+}
+
+nav a[aria-current='page'] {
+  background: #e6f4f9;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.numero {
+  color: var(--discret);
+  font-variant-numeric: tabular-nums;
+}
+
+main {
+  grid-area: contenu;
+  padding: 20px 24px;
+  min-width: 0;
+}
+
+main h2 small {
+  color: var(--discret);
+  font-weight: normal;
+  font-size: 0.9rem;
+}
+
+.chemin {
+  color: var(--discret);
+  font-size: 0.9rem;
+}
+
+.scene {
+  padding: 20px;
+  border: 1px solid var(--bordure);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+code,
+pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+}
+
+pre {
+  padding: 10px;
+  border-radius: 6px;
+  background: var(--fond);
+  overflow-x: auto;
+}
+
+button {
+  margin: 2px;
+  padding: 6px 12px;
+  border: 1px solid var(--bordure);
+  border-radius: 6px;
+  background: var(--surface);
+  font: inherit;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button[aria-pressed='true'] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+input,
+select,
+textarea {
+  padding: 6px 8px;
+  border: 1px solid var(--bordure);
+  border-radius: 6px;
+  font: inherit;
+}
+
+label {
+  margin-right: 8px;
+}
+
+.champ {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 420px;
+  margin-bottom: 12px;
+}
+
+.erreur,
+[role='alert'] {
+  margin: 0;
+  color: var(--erreur);
+}
+
+[role='status'] {
+  color: var(--succes);
+}
+
+.astuce {
+  color: var(--discret);
+  font-size: 0.9rem;
+}
+
+/* 01 */
+.valeur {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+/* 02 */
+.todo li,
+.panier li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* 05 */
+.cartes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.carte {
+  flex: 1 1 200px;
+  padding: 16px;
+  border: 1px solid var(--bordure);
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.carte h2 {
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+
+.theme-clair {
+  background: #ffffff;
+  color: #1f2328;
+}
+
+.theme-sombre {
+  background: #20232a;
+  color: #f0f0f0;
+}
+
+/* 06 */
+.preferences {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.preferences.compact {
+  gap: 2px;
+  font-size: 0.9rem;
+}
+
+/* 08 */
+.inscription {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.inscription p {
+  flex-basis: 100%;
+}
+
+.erreur-tp pre {
+  white-space: pre-wrap;
+}
+
+@media (max-width: 700px) {
+  .galerie {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+      'entete'
+      'menu'
+      'contenu';
+  }
+
+  nav {
+    border-right: 0;
+    border-bottom: 1px solid var(--bordure);
+  }
+
+  main {
+    padding: 16px;
+  }
+}

@@ -1,0 +1,18 @@
+# Dépendances et fichiers générés par Nuxt
+node_modules
+.nuxt
+.output
+.data
+.nitro
+.cache
+dist
+
+# Journaux
+logs
+*.log
+
+# Divers
+.DS_Store
+.env
+.env.*
+!.env.example
